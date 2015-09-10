@@ -21,7 +21,7 @@ class ContentStream {
         foreach ($bytes as $i => $byte) {
             if (!isset($this->read[$offset+$i])) {
                 fseek($this->fp, $offset+$i, SEEK_SET);
-                $this->read[$offset+$i] = fgetc($this->fp);
+                $this->read[$offset+$i] = ord(fgetc($this->fp));
             }
             if ($this->read[$offset+$i] !== $byte)
                 return false;
