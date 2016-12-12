@@ -1,5 +1,7 @@
 # FileTypeDetector
 
+[![Composer package](http://xn--e1adiijbgl.xn--p1acf/badge/wapmorgan/file-type-detector)](https://packagist.org/packages/wapmorgan/file-type-detector)
+
 ### How to detect by file name
 ```php
 $type = wapmorgan\FileTypeDetector\Detector::detectByFilename(...filename...);
