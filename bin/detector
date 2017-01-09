@@ -8,17 +8,22 @@ if ($argc == 1)
     die('Specify file names to perform detection');
 
 function performDetection($filename) {
-    fwrite(STDOUT, basename($filename).': ');
-    $type = Detector::detectByFilename($filename);
-    fwrite(STDOUT, ($type === false ? 'fail' : $type[0].'/'.$type[1]).', ');
-    $type = Detector::detectByContent($filename);
-    fwrite(STDOUT, ($type === false ? 'fail' : $type[0].'/'.$type[1]));
+    if (!is_readable($filename)) return;
+    $type_ext = Detector::detectByFilename($filename);
+    $type_bin = Detector::detectByContent($filename);
     fwrite(STDOUT, PHP_EOL);
+    echo sprintf('%54s | %-20s | %-20s', basename($filename), $type_ext === false ? 'fail' : $type_ext[0].'/'.$type_ext[1], $type_bin === false ? 'fail' : $type_bin[0].'/'.$type_bin[1]);
 }
 
 array_shift($argv);
+echo sprintf('%54s | %-20s | %-20s', 'File name', 'By extension', 'By content').PHP_EOL;
 foreach ($argv as $arg) {
-    if (is_dir($arg)) {
+    if (strpos($arg, '*')) {
+        foreach (glob($arg) as $f) {
+            if (is_file($f))
+                performDetection($f);
+        }
+    } else if (is_dir($arg)) {
         foreach (glob(rtrim($arg, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'*') as $f) {
             if (is_file($f))
                 performDetection($f);

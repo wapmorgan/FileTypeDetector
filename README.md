@@ -1,6 +1,11 @@
 # FileTypeDetector
 
 [![Composer package](http://xn--e1adiijbgl.xn--p1acf/badge/wapmorgan/file-type-detector)](https://packagist.org/packages/wapmorgan/file-type-detector)
+[![Latest Stable Version](https://poser.pugx.org/wapmorgan/file-type-detector/v/stable)](https://packagist.org/packages/wapmorgan/file-type-detector)
+[![Total Downloads](https://poser.pugx.org/wapmorgan/file-type-detector/downloads)](https://packagist.org/packages/wapmorgan/file-type-detector)
+[![Latest Unstable Version](https://poser.pugx.org/wapmorgan/file-type-detector/v/unstable)](https://packagist.org/packages/wapmorgan/file-type-detector)
+[![License](https://poser.pugx.org/wapmorgan/file-type-detector/license)](https://packagist.org/packages/wapmorgan/file-type-detector)
+
 
 ### How to detect by file name
 ```php
@@ -48,6 +53,7 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(...stream...);
 * Detector::MKV
 * Detector::MOV
 * Detector::MPEG
+* Detector::VOB
 
 **Detector::IMAGE**
 * Detector::JPEG
@@ -88,7 +94,6 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(...stream...);
 
 **Detector::APPLICATION**
 * Detector::APK
-* Detector::APP
 * Detector::COM
 * Detector::EXE
 
@@ -100,3 +105,4 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(...stream...);
 **Detector::SPREADSHEET**
 * Detector::ODS
 * Detector::XLS
+* Detector::XLSX
