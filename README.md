@@ -6,15 +6,21 @@
 [![Latest Unstable Version](https://poser.pugx.org/wapmorgan/file-type-detector/v/unstable)](https://packagist.org/packages/wapmorgan/file-type-detector)
 [![License](https://poser.pugx.org/wapmorgan/file-type-detector/license)](https://packagist.org/packages/wapmorgan/file-type-detector)
 
+1. Usage
+2. Installation
+3. Supported formats
 
+# Usage
 ### How to detect by file name
 ```php
 $type = wapmorgan\FileTypeDetector\Detector::detectByFilename(...filename...);
 ```
 `$type` will contain file type as an array like this:
 ```
-[0] => Detector::AUDIO,
-[1] => Detector::MP3
+array(
+  Detector::AUDIO,
+  Detector::MP3
+)
 ```
 In case of failure it will contain `false`.
 
@@ -26,7 +32,13 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(...stream...);
 ```
 `$type` can have the same values as described above.
 
-## List of types
+# Installation
+Install package via composer: 
+```
+composer require wapmorgan/file-type-detector
+```
+
+# Supported formats
 | Format            | In code                    |
 |-------------------|----------------------------|
 | **Audio**         | **Detector::AUDIO**        |
