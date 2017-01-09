@@ -27,82 +27,64 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(...stream...);
 `$type` can have the same values as described above.
 
 ## List of types
-* AUDIO
-* VIDEO
-* IMAGE
-* ARCHIVE
-* DATABASE
-* FONT
-* APPLICATION
-* PRESENTATION
-* SPREADSHEET
-
-**Detector::AUDIO**
-* Detector::FLAC
-* Detector::WMA
-* Detector::AMR
-* Detector::MP3
-* Detector::AAC
-* Detector::M3U
-
-**Detector::VIDEO**
-* Detector::THREE_GP
-* Detector::AVI
-* Detector::FLV
-* Detector::M4V
-* Detector::MKV
-* Detector::MOV
-* Detector::MPEG
-* Detector::VOB
-
-**Detector::IMAGE**
-* Detector::JPEG
-* Detector::BMP
-* Detector::GIF
-* Detector::PNG
-* Detector::TIFF
-* Detector::PSD
-
-**Detector::ARCHIVE**
-* Detector::BZIP2
-* Detector::GZIP
-* Detector::LZMA
-* Detector::XZ
-* Detector::SEVEN_ZIP
-* Detector::CAB
-* Detector::JAR
-* Detector::RAR
-* Detector::TAR
-* Detector::ZIP
-
-**Detector::DATABASE**
-* Detector::MDB
-
-**Detector::DOCUMENT**
-* Detector::DOC
-* Detector::DOCX
-* Detector::HTML
-* Detector::ODT
-* Detector::PDF
-* Detector::RTF
-* Detector::TXT
-* Detector::XML
-
-**Detector::FONT**
-* Detector::OTF
-* Detector::TTF
-
-**Detector::APPLICATION**
-* Detector::APK
-* Detector::COM
-* Detector::EXE
-
-**Detector::PRESENTATION**
-* Detector::PPT
-* Detector::PPTX
-* Detector::ODP
-
-**Detector::SPREADSHEET**
-* Detector::ODS
-* Detector::XLS
-* Detector::XLSX
+| Format            | In code                    |
+|-------------------|----------------------------|
+| **Audio**         | **Detector::AUDIO**        |
+| .flac             | Detector::FLAC             |
+| .wma              | Detector::WMA              |
+| .amr              | Detector::AMR              |
+| .mp3              | Detector::MP3              |
+| .aac              | Detector::AAC              |
+| .m3u              | Detector::M3U              |
+| **Video**         | **Detector::VIDEO**        |
+| .3gp              | Detector::THREE_GP         |
+| .avi              | Detector::AVI              |
+| .flv              | Detector::FLV              |
+| .m4v              | Detector::M4V              |
+| .mkv              | Detector::MKV              |
+| .mov              | Detector::MOV              |
+| .mpeg, .mpg       | Detector::MPEG             |
+| **Images**        | **Detector::IMAGE**        |
+| .jpeg, .jpg       | Detector::JPEG             |
+| .bmp              | Detector::BMP              |
+| .gif              | Detector::GIF              |
+| .png              | Detector::PNG              |
+| .tiff             | Detector::TIFF             |
+| .psd              | Detector::PSD              |
+| **Archives**      | **Detector::ARCHIVE**      |
+| .bz2              | Detector::BZIP2            |
+| .gz               | Detector::GZIP             |
+| .xz               | Detector::LZMA2            |
+| .7z               | Detector::SEVEN_ZIP        |
+| .cab              | Detector::CAB              |
+| .jar              | Detector::JAR              |
+| .rar              | Detector::RAR              |
+| .tar              | Detector::TAR              |
+| .zip              | Detector::ZIP              |
+| **Databases**     | **Detector::DATABASE**     |
+| .mdb              | Detector::MDB              |
+| .odb              | Detector::ODB              |
+| **Documents**     | **Detector::DOCUMENT**     |
+| .doc              | Detector::DOC              |
+| .docx             | Detector::DOCX             |
+| .html             | Detector::HTML             |
+| .odt              | Detector::ODT              |
+| .pdf              | Detector::PDF              |
+| .rtf              | Detector::RTF              |
+| .txt              | Detector::TXT              |
+| .xml              | Detector::XML              |
+| **Font-faces**    | **Detector::FONT**         |
+| .otf              | Detector::OTF              |
+| .ttf              | Detector::TTF              |
+| **Executables**   | **Detector::APPLICATION**  |
+| .apk              | Detector::APK              |
+| .com              | Detector::COM              |
+| .exe              | Detector::EXE              |
+| **Presentations** | **Detector::PRESENTATION** |
+| .ppt              | Detector::PPT              |
+| .pptx             | Detector::PPTX             |
+| .odp              | Detector::ODP              |
+| **Spreadsheets**  | **Detector::SPREADSHEET**  |
+| .ods              | Detector::ODS              |
+| .xls              | Detector::XLS              |
+| .xlsx             | Detector::XLSX             |
