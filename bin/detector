@@ -11,8 +11,7 @@ function performDetection($filename) {
     if (!is_readable($filename)) return;
     $type_ext = Detector::detectByFilename($filename);
     $type_bin = Detector::detectByContent($filename);
-    fwrite(STDOUT, PHP_EOL);
-    echo sprintf('%34s | %-20s | %-20s', substrIfLonger(basename($filename), 34), $type_ext === false ? 'fail' : $type_ext[0].'/'.$type_ext[1], $type_bin === false ? 'fail' : $type_bin[0].'/'.$type_bin[1]);
+    echo sprintf('%34s | %-20s | %-20s', substrIfLonger(basename($filename), 34), $type_ext === false ? 'fail' : $type_ext[0].'/'.$type_ext[1], $type_bin === false ? 'fail' : $type_bin[0].'/'.$type_bin[1]).PHP_EOL;
 }
 
 array_shift($argv);
