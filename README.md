@@ -34,7 +34,7 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(...stream...);
 `$type` can have the same values as described above.
 
 # Installation
-Install package via composer: 
+Install package via composer:
 ```
 composer require wapmorgan/file-type-detector
 ```

@@ -22,8 +22,7 @@ class Detector {
 
     const BZIP2 = 'bzip2';
     const GZIP = 'gzip';
-    const LZMA = 'lzma';
-    const XZ = 'xz';
+    const LZMA2 = 'lzma2';
     const SEVEN_ZIP = '7z';
     const CAB = 'cab';
     const JAR = 'jar';
@@ -102,11 +101,8 @@ class Detector {
             case 'gz':
                 return array(self::ARCHIVE, self::GZIP);
 
-            case 'lzma':
-                return array(self::ARCHIVE, self::LZMA);
-
             case 'xz':
-                return array(self::ARCHIVE, self::XZ);
+                return array(self::ARCHIVE, self::LZMA2);
 
             case '7z':
                 return array(self::ARCHIVE, self::SEVEN_ZIP);
