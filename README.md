@@ -12,6 +12,7 @@ Files type detector based on file name extension or file content (binary content
 3. Supported formats
 
 # Usage
+
 ### How to detect by file name
 ```php
 $type = wapmorgan\FileTypeDetector\Detector::detectByFilename(...filename...);
@@ -40,6 +41,7 @@ composer require wapmorgan/file-type-detector
 ```
 
 # Supported formats
+
 | Format            | In code                    |
 |-------------------|----------------------------|
 | **Audio**         | **Detector::AUDIO**        |
