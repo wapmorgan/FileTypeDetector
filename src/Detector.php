@@ -197,6 +197,9 @@ class Detector {
             case 'ods':
                 return array(self::SPREADSHEET, self::ODS);
 
+            case 'csv':
+                return array(self::SPREADSHEET);
+
             case 'xls':
                 return array(self::SPREADSHEET, self::XLS);
 
