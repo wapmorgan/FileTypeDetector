@@ -13,26 +13,38 @@ Files type detector based on file name extension or file content (binary content
 
 # Usage
 
-### How to detect by file name
-```php
-$type = wapmorgan\FileTypeDetector\Detector::detectByFilename(...filename...);
-```
-`$type` will contain file type as an array like this:
-```
-array(
-  Detector::AUDIO,
-  Detector::MP3
-)
-```
-In case of failure it will contain `false`.
+## File Type detection
 
-### How to detect by file content
+- Detection by filename: `detectByFilename(...filename...)`
+- Detection by content: `detectByContent(...filename...)`
+
+Example:
+
 ```php
-$type = wapmorgan\FileTypeDetector\Detector::detectByContent(...filename...);
+$type = wapmorgan\FileTypeDetector\Detector::detectByFilename($filename);
+
+// $type will contain file type as an array like this:
+// array(
+//   Detector::AUDIO,
+//   Detector::MP3
+// )
+// In case of failure it will contain `false`.
+
+
+$type = wapmorgan\FileTypeDetector\Detector::detectByContent($filename);
 // or
-$type = wapmorgan\FileTypeDetector\Detector::detectByContent(...stream...);
+$type = wapmorgan\FileTypeDetector\Detector::detectByContent($stream);
 ```
-`$type` can have the same values as described above.
+
+## Mimetype generation
+
+To use correct mimetype for file there is `getMimeType($type)` function.
+
+```php
+$mime = wapmorgan\FileTypeDetector\Detector::getMimeType($type[1]);
+// or
+$mime = wapmorgan\FileTypeDetector\Detector::getMimeType(wapmorgan\FileTypeDetector\Detector::MP3);
+```
 
 # Installation
 Install package via composer:
