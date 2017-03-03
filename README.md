@@ -51,6 +51,7 @@ composer require wapmorgan/file-type-detector
 | .mp3              | Detector::MP3              |
 | .aac              | Detector::AAC              |
 | .m3u              | Detector::M3U              |
+| .ogg              | Detector::OGG              |
 | **Video**         | **Detector::VIDEO**        |
 | .3gp              | Detector::THREE_GP         |
 | .avi              | Detector::AVI              |

@@ -59,6 +59,7 @@ class Detector {
     const MP3 = 'mp3';
     const AAC = 'aac';
     const M3U = 'm3u';
+    const OGG = 'ogg';
 
     const ODS = 'ods';
     const XLS = 'xls';
@@ -193,6 +194,9 @@ class Detector {
 
             case 'm3u':
                 return array(self::AUDIO, self::M3U);
+
+            case 'ogg':
+                return array(self::AUDIO, self::OGG);
 
             case 'ods':
                 return array(self::SPREADSHEET, self::ODS);
@@ -334,6 +338,8 @@ class Detector {
             return array(self::AUDIO< self::AAC);
         else if ($stream->checkBytes(0, array('#', 'E', 'X', 'T', 'M', '3', 'U')))
             return array(self::AUDIO, self::M3U);
+        else if ($stream->checkBytes(0, array('O', 'g', 'g', 'S')))
+            return array(self::AUDIO, self::OGG);
 
         else if ($stream->checkBytes(0, array(0x00, 0x00, 0x00, 0x14, 0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70)))
             return array(self::VIDEO, self::THREE_GP);
