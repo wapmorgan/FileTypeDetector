@@ -45,21 +45,24 @@ composer require wapmorgan/file-type-detector
 | Format            | In code                    |
 |-------------------|----------------------------|
 | **Audio**         | **Detector::AUDIO**        |
-| .flac             | Detector::FLAC             |
-| .wma              | Detector::WMA              |
-| .amr              | Detector::AMR              |
-| .mp3              | Detector::MP3              |
 | .aac              | Detector::AAC              |
-| .m3u              | Detector::M3U              |
+| .amr              | Detector::AMR              |
+| .flac             | Detector::FLAC             |
 | .ogg              | Detector::OGG              |
+| .mp3              | Detector::MP3              |
+| .m3u              | Detector::M3U              |
+| .wav              | Detector::WAV              |
+| .wma              | Detector::WMA              |
 | **Video**         | **Detector::VIDEO**        |
-| .3gp              | Detector::THREE_GP         |
+| .3gp              | Detector::_3GP             |
+| .asf              | Detector::ASF              |
 | .avi              | Detector::AVI              |
 | .flv              | Detector::FLV              |
 | .m4v              | Detector::M4V              |
 | .mkv              | Detector::MKV              |
 | .mov              | Detector::MOV              |
 | .mpeg, .mpg       | Detector::MPEG             |
+| .wmv              | Detector::WMV              |
 | **Images**        | **Detector::IMAGE**        |
 | .jpeg, .jpg       | Detector::JPEG             |
 | .bmp              | Detector::BMP              |
@@ -71,7 +74,7 @@ composer require wapmorgan/file-type-detector
 | .bz2              | Detector::BZIP2            |
 | .gz               | Detector::GZIP             |
 | .xz               | Detector::LZMA2            |
-| .7z               | Detector::SEVEN_ZIP        |
+| .7z               | Detector::_7ZIP            |
 | .cab              | Detector::CAB              |
 | .jar              | Detector::JAR              |
 | .rar              | Detector::RAR              |
