@@ -1,6 +1,7 @@
 {
     "name": "wapmorgan/file-type-detector",
-    "description": "Detects file type by its extension or content",
+    "description": "Detects file type by filename or content and generates correct mimetype.",
+    "keywords": ["mimetype", "files", "formats", "filetype"],
     "license": "MIT",
     "autoload": {
         "psr-4": {
