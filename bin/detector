@@ -15,7 +15,7 @@ function performDetection($filename) {
 }
 
 array_shift($argv);
-echo sprintf('%54s | %-20s | %-20s', 'File name', 'By extension', 'By content').PHP_EOL;
+echo sprintf('%34s | %-20s | %-20s', 'File name', 'By extension', 'By content').PHP_EOL;
 foreach ($argv as $arg) {
     if (strpos($arg, '*')) {
         foreach (glob($arg) as $f) {
