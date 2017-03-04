@@ -29,6 +29,7 @@ class Detector {
     const RAR = 'rar';
     const TAR = 'tar';
     const ZIP = 'zip';
+    const ISO = 'iso';
 
     const MDB = 'mdb';
     const ODB = 'odb';
@@ -109,6 +110,7 @@ class Detector {
         'rar' => array(self::ARCHIVE, self::RAR),
         'tar' => array(self::ARCHIVE, self::TAR),
         'zip' => array(self::ARCHIVE, self::ZIP),
+        'iso' => array(self::ARCHIVE, self::ISO),
 
         'mdb' => array(self::DATABASE, self::MDB),
         'odb' => array(self::DATABASE, self::ODB),
@@ -181,6 +183,7 @@ class Detector {
         self::RAR => 'application/x-rar-compressed',
         self::TAR => 'application/x-tar',
         self::ZIP => 'application/zip',
+        self::ISO => 'application/x-iso9660-image',
 
         self::MDB => 'application/x-msaccess',
         self::ODB => 'application/vnd.oasis.opendocument.database',
@@ -265,6 +268,7 @@ class Detector {
             // or
             [0 => [0x75, 0x73, 0x74, 0x61, 0x72, 0x20, 0x20, 0x00]]
         ],
+        self::ISO => [[0 => [0x43, 0x44, 0x30, 0x30, 0x31]]],
 
         // Spreadsheets signatures
         self::MDB => [[0 => [0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E, 0x64, 0x61, 0x72, 0x64, 0x20, 0x4A, 0x65, 0x74, 0x20, 0x44, 0x42]]],

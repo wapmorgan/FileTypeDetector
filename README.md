@@ -66,7 +66,7 @@ composer require wapmorgan/file-type-detector
 | **Videos**                   | `Detector::CSV` - **.csv**           |                                  | `Detector::RAR` - **.rar**     |
 | `Detector::_3GP` - **.3gp**  | **Text and documents**               |                                  | `Detector::TAR` - **.tar**     |
 | `Detector::ASF` - **.asf**   | `Detector::DOC` - **.doc**           |                                  | `Detector::ZIP` - **.zip**     |
-| `Detector::AVI` - **.avi**   | `Detector::DOCX` - **.docx**         |                                  |                                |
+| `Detector::AVI` - **.avi**   | `Detector::DOCX` - **.docx**         |                                  | `Detector::ISO` - **.iso**     |
 | `Detector::FLV` - **.flv**   | `Detector::HTML` - **.html**         |                                  |                                |
 | `Detector::M4V` - **.m4v**   | `Detector::ODT` - **.odt**           |                                  |                                |
 | `Detector::MKV` - **.mkv**   | `Detector::PDF` - **.pdf**           |                                  |                                |
