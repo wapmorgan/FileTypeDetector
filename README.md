@@ -31,9 +31,9 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByFilename($filename);
 // In case of failure it will contain `false`.
 
 
-$type = wapmorgan\FileTypeDetector\Detector::detectByContent($filename);
+$type = wapmorgan\FileTypeDetector\Detector::detectByContent('file-without-extension');
 // or
-$type = wapmorgan\FileTypeDetector\Detector::detectByContent($stream);
+$type = wapmorgan\FileTypeDetector\Detector::detectByContent(fopen('http://somedomain/somepath', 'r'));
 ```
 
 ## Mimetype generation
