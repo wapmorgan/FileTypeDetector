@@ -12,6 +12,7 @@ class Detector {
     const APPLICATION = 'application';
     const PRESENTATION = 'presentation';
     const SPREADSHEET = 'spreadsheet';
+    const FEED = 'feed';
 
     const JPEG = 'jpeg';
     const BMP = 'bmp';
@@ -45,7 +46,9 @@ class Detector {
     const MARKDOWN = 'markdown';
     const JSON = 'json';
     const YAML = 'yaml';
+
     const ATOM = 'atom';
+    const RSS = 'rss';
 
     const OTF = 'otf';
     const TTF = 'ttf';
@@ -91,7 +94,7 @@ class Detector {
         'mpe' => self::MPEG,
         'm4a' => self::AAC,
         'yml' => self::YAML,
-        'md' => self:MARKDOWN,
+        'md' => self::MARKDOWN,
     );
 
     static protected $types = array(
@@ -127,7 +130,9 @@ class Detector {
         'json' => array(self::DOCUMENT, self::JSON),
         'yaml' => array(self::DOCUMENT, self::YAML),
         'xml' => array(self::DOCUMENT, self::XML),
-        'atom' => array(self::DOCUMENT, self::ATOM),
+
+        'atom' => array(self::FEED, self::ATOM),
+        'rss' => array(self::FEED, self::RSS),
 
         'otf' => array(self::FONT, self::OTF),
         'ttf' => array(self::FONT, self::TTF),
@@ -199,8 +204,10 @@ class Detector {
         self::MARKDOWN => 'text/markdown',
         self::YAML => 'text/yaml',
         self::JSON => 'application/json',
-        self::ATOM => 'application/atom+xml',
         self::XML => 'application/xml',
+
+        self::ATOM => 'application/atom+xml',
+        self::RSS => 'application/rss+xml',
 
         self::OTF => 'application/x-font-otf',
         self::TTF => 'application/x-font-ttf',
@@ -395,7 +402,15 @@ class Detector {
             // search for substring "Atom" in the second xml tag
             10 => [
                 'bytes' => ['A', 't', 'o', 'm'],
-                'depth' => 50
+                'depth' => 100
+            ]
+        ]],
+        self::RSS => [[
+            0 => '<?xml',
+            // search for substring "<rss" at the start of file
+            10 => [
+                'bytes' => ['<', 'r', 's', 's'],
+                'depth' => 100
             ]
         ]],
         // make sure xml at the end of Text's section
