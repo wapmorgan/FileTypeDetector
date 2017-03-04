@@ -91,6 +91,7 @@ class Detector {
         'mpe' => self::MPEG,
         'm4a' => self::AAC,
         'yml' => self::YAML,
+        'md' => self:MARKDOWN,
     );
 
     static protected $types = array(
