@@ -67,19 +67,19 @@ composer require wapmorgan/file-type-detector
 | `Detector::_3GP` - **.3gp**  | **Text and documents**               |                                  | `Detector::TAR` - **.tar**     |
 | `Detector::ASF` - **.asf**   | `Detector::DOC` - **.doc**           |                                  | `Detector::ZIP` - **.zip**     |
 | `Detector::AVI` - **.avi**   | `Detector::DOCX` - **.docx**         |                                  | `Detector::ISO` - **.iso**     |
-| `Detector::FLV` - **.flv**   | `Detector::HTML` - **.html**         |                                  |                                |
-| `Detector::M4V` - **.m4v**   | `Detector::ODT` - **.odt**           |                                  |                                |
-| `Detector::MKV` - **.mkv**   | `Detector::PDF` - **.pdf**           |                                  |                                |
+| `Detector::FLV` - **.flv**   | `Detector::HTML` - **.html**         |                                  | **Interned feeds**             |
+| `Detector::M4V` - **.m4v**   | `Detector::ODT` - **.odt**           |                                  | `Detector::ATOM` - **.atom**   |
+| `Detector::MKV` - **.mkv**   | `Detector::PDF` - **.pdf**           |                                  | `Detector::RSS` - **.rss**     |
 | `Detector::MOV` - **.mov**   | `Detector::RTF` - **.rtf**           |                                  |                                |
 | `Detector::MPEG` - **.mpeg** | `Detector::TXT` - **.txt**           |                                  |                                |
 | `Detector::MP4` - **.mp4**   | `Detector::XML` - **.xml**           |                                  |                                |
 | `Detector::VOB` - **.vob**   | `Detector::MARKDOWN` - **.markdown** |                                  |                                |
 | **Audios**                   | `Detector::JSON` - **.json**         |                                  |                                |
 | `Detector::FLAC` - **.flac** | `Detector::YAML` - **.yaml**         |                                  |                                |
-| `Detector::WMA` - **.wma**   | `Detector::ATOM` - **.atom**         |                                  |                                |
-| `Detector::AMR` - **.amr**   | **Presentations**                    |                                  |                                |
-| `Detector::MP3` - **.mp3**   | `Detector::PPT` - **.ppt**           |                                  |                                |
-| `Detector::AAC` - **.aac**   | `Detector::PPTX` - **.pptx**         |                                  |                                |
-| `Detector::M3U` - **.m3u**   | `Detector::ODP` - **.odp**           |                                  |                                |
+| `Detector::WMA` - **.wma**   | **Presentations**                    |                                  |                                |
+| `Detector::AMR` - **.amr**   | `Detector::PPT` - **.ppt**           |                                  |                                |
+| `Detector::MP3` - **.mp3**   | `Detector::PPTX` - **.pptx**         |                                  |                                |
+| `Detector::AAC` - **.aac**   | `Detector::ODP` - **.odp**           |                                  |                                |
+| `Detector::M3U` - **.m3u**   |          |                           |                                  |                                |
 | `Detector::OGG` - **.ogg**   |                                      |                                  |                                |
 | `Detector::WAV` - **.wav**   |                                      |                                  |                                |
