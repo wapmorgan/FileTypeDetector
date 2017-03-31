@@ -86,6 +86,7 @@ class Detector {
     const MP4 = 'mp4';
     const VOB = 'vob';
     const WMV = 'wmv';
+    const WEBM = 'webm';
 
     static protected $aliases = array(
         'jpg' => self::JPEG,
@@ -170,6 +171,7 @@ class Detector {
         'mp4' => array(self::VIDEO, self::MP4),
         'vob' => array(self::VIDEO, self::VOB),
         'wmv' => array(self::VIDEO, self::WMV),
+        'webm' => array(self::VIDEO, self::WEBM),
     );
 
     static protected $mimeTypes = array(
@@ -242,6 +244,7 @@ class Detector {
         self::MPEG => 'video/mpeg',
         self::MP4 => 'video/mp4',
         self::VOB => 'video/x-ms-vob',
+        self::WEBM => 'video/webm',
     );
 
     static protected $signatures = [
@@ -465,6 +468,7 @@ class Detector {
             // and
             -4 => [0x00, 0x00, 0x01, 0xB9]
         ]],
+        self::WEBM => [[0 => [0x1A, 0x45, 0xDF, 0xA3]]],
 
         // zip is a container for a lot of formats
         self::ZIP => [
