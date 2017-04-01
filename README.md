@@ -57,32 +57,35 @@ composer require wapmorgan/file-type-detector
 | Multimedia                   | Office documents                     | System files                     | Other files                    |
 |------------------------------|--------------------------------------|----------------------------------|--------------------------------|
 | **Images**                   | **Databases**                        | **Fonts**                        | **Archives**                   |
-| `Detector::JPEG` - **.jpeg** | `Detector::MDB` - **.mdb**           | `Detector::OTF` - **.otf**       | `Detector::BZIP2` - **.bzip2** |
-| `Detector::BMP` - **.bmp**   | `Detector::ODB` - **.odb**           | `Detector::TTF` - **.ttf**       | `Detector::GZIP` - **.gzip**   |
-| `Detector::GIF` - **.gif**   |                                      |                                  | `Detector::LZMA2` - **.lzma2** |
-| `Detector::PNG` - **.png**   | **Spreadsheets**                     | **Executables and applications** | `Detector::_7ZIP` - **.7z**    |
-| `Detector::TIFF` - **.tiff** | `Detector::ODS` - **.ods**           | `Detector::APK` - **.apk**       | `Detector::CAB` - **.cab**     |
-| `Detector::PSD` - **.psd**   | `Detector::XLS` - **.xls**           | `Detector::COM` - **.com**       | `Detector::JAR` - **.jar**     |
-|                              | `Detector::XLSX` - **.xlsx**         | `Detector::EXE` - **.exe**       | `Detector::RAR` - **.rar**     |
-| **Videos**                   | `Detector::CSV` - **.csv**           |                                  | `Detector::TAR` - **.tar**     |
-| `Detector::_3GP` - **.3gp**  |                                      |                                  | `Detector::ZIP` - **.zip**     |
-| `Detector::ASF` - **.asf**   | **Text and documents**               |                                  | `Detector::ISO` - **.iso**     |
-| `Detector::AVI` - **.avi**   | `Detector::DOC` - **.doc**           |                                  |                                |
-| `Detector::FLV` - **.flv**   | `Detector::DOCX` - **.docx**         |                                  | **Interned feeds**             |
-| `Detector::M4V` - **.m4v**   | `Detector::HTML` - **.html**         |                                  | `Detector::ATOM` - **.atom**   |
-| `Detector::MKV` - **.mkv**   | `Detector::ODT` - **.odt**           |                                  | `Detector::RSS` - **.rss**     |
-| `Detector::MOV` - **.mov**   | `Detector::PDF` - **.pdf**           |                                  |                                |
-| `Detector::MPEG` - **.mpeg** | `Detector::RTF` - **.rtf**           |                                  |                                |
-| `Detector::MP4` - **.mp4**   | `Detector::TXT` - **.txt**           |                                  |                                |
-| `Detector::VOB` - **.vob**   | `Detector::XML` - **.xml**           |                                  |                                |
-| `Detector::WEBM` - **.webm** | `Detector::MARKDOWN` - **.markdown** |                                  |                                |
-|                              | `Detector::JSON` - **.json**         |                                  |                                |
-| **Audios**                   | `Detector::YAML` - **.yaml**         |                                  |                                |
-| `Detector::FLAC` - **.flac** |                                      |                                  |                                |
-| `Detector::WMA` - **.wma**   | **Presentations**                    |                                  |                                |
+| `Detector::BMP` - **.bmp**   | `Detector::MDB` - **.mdb**           | `Detector::OTF` - **.otf**       | `Detector::_7ZIP` - **.7z**    |
+| `Detector::GIF` - **.gif**   | `Detector::ODB` - **.odb**           | `Detector::TTF` - **.ttf**       | `Detector::ARJ` - **.arj**     |
+| `Detector::JPEG` - **.jpeg** |                                      |                                  | `Detector::BZIP2` - **.bzip2** |
+| `Detector::PNG` - **.png**   | **Spreadsheets**                     | **Executables and applications** | `Detector::CAB` - **.cab**     |
+| `Detector::PSD` - **.psd**   | `Detector::CSV` - **.csv**           | `Detector::APK` - **.apk**       | `Detector::GZIP` - **.gzip**   |
+| `Detector::TIFF` - **.tiff** | `Detector::ODS` - **.ods**           | `Detector::COM` - **.com**       | `Detector::ISO` - **.iso**     |
+|                              | `Detector::TSV` - **.tsv**           | `Detector::EXE` - **.exe**       | `Detector::JAR` - **.jar**     |
+| **Videos**                   | `Detector::XLS` - **.xls**           |                                  | `Detector::LZMA2` - **.lzma2** |
+| `Detector::_3GP` - **.3gp**  | `Detector::XLSX` - **.xlsx**         |                                  | `Detector::RAR` - **.rar**     |
+| `Detector::ASF` - **.asf**   |                                      |                                  | `Detector::TAR` - **.tar**     |
+| `Detector::AVI` - **.avi**   | **Text and documents**               |                                  | `Detector::ZIP` - **.zip**     |
+| `Detector::FLV` - **.flv**   | `Detector::DOC` - **.doc**           |                                  |                                |
+| `Detector::M4V` - **.m4v**   | `Detector::DOCX` - **.docx**         |                                  | **Interned feeds**             |
+| `Detector::MKV` - **.mkv**   | `Detector::HTML` - **.html**         |                                  | `Detector::ATOM` - **.atom**   |
+| `Detector::MOV` - **.mov**   | `Detector::ODT` - **.odt**           |                                  | `Detector::RSS` - **.rss**     |
+| `Detector::MPEG` - **.mpeg** | `Detector::PDF` - **.pdf**           |                                  |                                |
+| `Detector::MP4` - **.mp4**   | `Detector::RTF` - **.rtf**           |                                  |                                |
+| `Detector::SWF` - **.swf**   | `Detector::TXT` - **.txt**           |                                  |                                |
+| `Detector::VOB` - **.vob**   | `Detector::MARKDOWN` - **.markdown** |                                  |                                |
+| `Detector::WEBM` - **.webm** | `Detector::JSON` - **.json**         |                                  |                                |
+| `Detector::WMV` - **.wmv**   | `Detector::XML` - **.xml**           |                                  |                                |
+|                              | `Detector::YAML` - **.yaml**         |                                  |                                |
+| **Audios**                   |                                      |                                  |                                |
+| `Detector::AAC` - **.aac**   | **Presentations**                    |                                  |                                |
 | `Detector::AMR` - **.amr**   | `Detector::PPT` - **.ppt**           |                                  |                                |
-| `Detector::MP3` - **.mp3**   | `Detector::PPTX` - **.pptx**         |                                  |                                |
-| `Detector::AAC` - **.aac**   | `Detector::ODP` - **.odp**           |                                  |                                |
-| `Detector::M3U` - **.m3u**   |                                      |                                  |                                |
+| `Detector::FLAC` - **.flac** | `Detector::PPTX` - **.pptx**         |                                  |                                |
+| `Detector::M3U` - **.m3u**   | `Detector::ODP` - **.odp**           |                                  |                                |
+| `Detector::MIDI` - **.midi** |                                      |                                  |                                |
+| `Detector::MP3` - **.mp3**   |                                      |                                  |                                |
 | `Detector::OGG` - **.ogg**   |                                      |                                  |                                |
 | `Detector::WAV` - **.wav**   |                                      |                                  |                                |
+| `Detector::WMA` - **.wma**   |                                      |                                  |                                |

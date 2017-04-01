@@ -21,6 +21,7 @@ class Detector {
     const TIFF = 'tiff';
     const PSD = 'psd';
 
+    const ARJ = 'arj';
     const BZIP2 = 'bzip2';
     const GZIP = 'gzip';
     const LZMA2 = 'lzma2';
@@ -69,11 +70,13 @@ class Detector {
     const M3U = 'm3u';
     const OGG = 'ogg';
     const WAV = 'wav';
+    const MIDI = 'midi';
 
     const ODS = 'ods';
     const XLS = 'xls';
     const XLSX = 'xlsx';
     const CSV = 'csv';
+    const TSV = 'tsv';
 
     const _3GP = '3gp';
     const ASF = 'asf';
@@ -84,6 +87,7 @@ class Detector {
     const MOV = 'mov';
     const MPEG = 'mpeg';
     const MP4 = 'mp4';
+    const SWF = 'swf';
     const VOB = 'vob';
     const WMV = 'wmv';
     const WEBM = 'webm';
@@ -96,6 +100,7 @@ class Detector {
         'm4a' => self::AAC,
         'yml' => self::YAML,
         'md' => self::MARKDOWN,
+        'mid' => self::MIDI,
     );
 
     static protected $types = array(
@@ -106,6 +111,7 @@ class Detector {
         'tiff' => array(self::IMAGE, self::TIFF),
         'psd' => array(self::IMAGE, self::PSD),
 
+        'arj' => array(self::ARCHIVE, self::ARJ),
         'bz2' => array(self::ARCHIVE, self::BZIP2),
         'gz' => array(self::ARCHIVE, self::GZIP),
         'xz' => array(self::ARCHIVE, self::LZMA2),
@@ -154,11 +160,13 @@ class Detector {
         'm3u' => array(self::AUDIO, self::M3U),
         'ogg' => array(self::AUDIO, self::OGG),
         'wav' => array(self::AUDIO, self::WAV),
+        'midi' => array(self::AUDIO, self::MIDI),
 
         'ods' => array(self::SPREADSHEET, self::ODS),
         'xls' => array(self::SPREADSHEET, self::XLS),
         'xlsx' => array(self::SPREADSHEET, self::XLSX),
         'csv' => array(self::SPREADSHEET, self::CSV),
+        'tsv' => array(self::SPREADSHEET, self::TSV),
 
         '3gp' => array(self::VIDEO, self::_3GP),
         'asf' => array(self::VIDEO, self::ASF),
@@ -169,6 +177,7 @@ class Detector {
         'mov' => array(self::VIDEO, self::MOV),
         'mpeg' => array(self::VIDEO, self::MPEG),
         'mp4' => array(self::VIDEO, self::MP4),
+        'swf' => array(self::VIDEO, self::SWF),
         'vob' => array(self::VIDEO, self::VOB),
         'wmv' => array(self::VIDEO, self::WMV),
         'webm' => array(self::VIDEO, self::WEBM),
@@ -182,6 +191,7 @@ class Detector {
         self::TIFF => 'image/tiff',
         self::PSD => 'image/vnd.adobe.photoshop',
 
+        self::ARJ => 'application/arj',
         self::BZIP2 => 'application/x-bzip2',
         self::GZIP => 'application/gzip',
         self::_7ZIP => 'application/x-7z-compressed',
@@ -229,11 +239,14 @@ class Detector {
         self::AAC => 'audio/x-aac',
         self::M3U => 'audio/x-mpegurl',
         self::OGG => 'audio/ogg',
+        self::WAV => 'audio/x-wav',
+        self::MIDI => 'audio/midi',
 
         self::ODS => 'application/vnd.oasis.opendocument.spreadsheet',
         self::XLS => 'application/vnd.ms-excel',
         self::XLSX => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         self::CSV => 'text/csv',
+        self::TSV => 'text/tab-separated-values',
 
         self::_3GP => 'video/3gpp',
         self::AVI => 'video/x-msvideo',
@@ -243,7 +256,9 @@ class Detector {
         self::MOV => 'video/quicktime',
         self::MPEG => 'video/mpeg',
         self::MP4 => 'video/mp4',
+        self::SWF => 'application/x-shockwave-flash',
         self::VOB => 'video/x-ms-vob',
+        self::WMV => 'video/x-ms-wmv',
         self::WEBM => 'video/webm',
     );
 
@@ -265,10 +280,16 @@ class Detector {
         self::PSD => [[0 => [0x38, 0x42, 0x50, 0x53]]],
 
         // Archives signatures
+        self::ARJ => [[0 => [0x60, 0xEA]]],
         self::BZIP2 => [[0 => [0x42, 0x5A, 0x68]]],
         self::GZIP => [[0 => [0x1F, 0x8B]]],
         self::_7ZIP => [[0 => [0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C]]],
         self::CAB => [[0 => [0x4D, 0x53, 0x43, 0x46]]],
+        self::JAR => [
+            [0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x08, 0x00, 0x08, 0x00]],
+            // or
+            [0 => [0x5F, 0x27, 0xA8, 0x89]]
+        ],
         self::RAR => [
             [0 => [0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x00]],
             // or
@@ -433,7 +454,6 @@ class Detector {
 
         // Audios formats
         self::FLAC => [[0 => [0x66, 0x4C, 0x61, 0x43, 0x00, 0x00, 0x00, 0x22]]],
-        self::WMA => [[0 => [0x30, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C]]],
         self::AMR => [[0 => [0x23, 0x21, 0x41, 0x4D, 0x52]]],
         self::MP3 => [[0 => [0x49, 0x44, 0x33]]],
         self::AAC => [
@@ -443,6 +463,7 @@ class Detector {
         ],
         self::M3U => [[0 => ['#', 'E', 'X', 'T', 'M', '3', 'U']]],
         self::OGG => [[0 => ['O', 'g', 'g', 'S']]],
+        self::MIDI => [[0 => [0x4D, 0x54, 0x68, 0x64]]],
 
         self::_3GP => [[0 => [0x00, 0x00, 0x00, 0x14, 0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70]]],
         self::AVI => [[
@@ -458,11 +479,21 @@ class Detector {
             // or
             [4 => [0x6D, 0x6F, 0x6F, 0x76]]
         ],
+        self::MP4 => [
+            [4 => [0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6F, 0x6D]],
+            // or
+            [4 => [0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70, 0x35]],
+            // or
+            [4 => [0x66, 0x74, 0x79, 0x70, 0x4D, 0x53, 0x4E, 0x56]],
+            // or
+            [4 => [0x66, 0x74, 0x79, 0x70, 0x4D, 0x34, 0x41, 0x20]]
+        ],
         self::MPEG => [[
             0 => [0x00, 0x00, 0x01],
             // and
             -4 => [0x00, 0x00, 0x01, 0xB7]
         ]],
+        self::SWF => [[0 => [0x5A, 0x57, 0x53]]],
         self::VOB => [[
             0 => [0x00, 0x00, 0x01, 0xBA],
             // and
