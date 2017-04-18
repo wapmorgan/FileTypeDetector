@@ -18,7 +18,7 @@ Files type detector based on file name extension or file content (binary content
 - Detection by file name: `Detector::detectByFilename(...filename...): array|boolean`
 - Detection by file content or stream content: `Detector::detectByContent(...filename/resource...): array|boolean`
 
-Both functions will returns `an array` with following elements in case of success:
+Both functions will return an `array` with following elements in case of success:
 
 - `[0]` - Type of file (`Detector::AUDIO` and so on)
 - `[1]` - Format of file (`Detector::MP3` and so on)
