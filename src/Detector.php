@@ -514,7 +514,11 @@ class Detector {
     static public function detectByFilename($filename) {
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         if (isset(self::$aliases[$ext])) $ext = self::$aliases[$ext];
-        if (isset(self::$types[$ext])) return self::$types[$ext];
+        if (isset(self::$types[$ext])) {
+            $format = self::$types[$ext];
+            $format[] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
+            return $format;
+        }
         return false;
     }
 
@@ -543,15 +547,22 @@ class Detector {
                     }
                 }
                 // if earlier we did not break inner loop, then all signatures matched
-                if ($passed) return self::$types[$type];
+                if ($passed) {
+                    $format = self::$types[$type];
+                    $format[] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
+                    return $format;
+                }
             }
         }
         return false;
     }
 
     static public function getMimeType($format) {
-        if (!isset(self::$mimeTypes[$format]))
+        $format = self::detectByFilename($file) ?: self::detectByContent($file);
+        if ($format === false)
             return false;
-        return self::$mimeTypes[$format];
+        if (!isset(self::$mimeTypes[$format[1]]))
+            return false;
+        return self::$mimeTypes[$format[1]];
     }
 }

@@ -3,19 +3,27 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use wapmorgan\FileTypeDetector\Detector;
+use wapmorgan\FileTypeDetector\TerminalInfo;
 
 if ($argc == 1)
     die('Specify file names to perform detection');
 
+if (TerminalInfo::isInteractive()) {
+    $width = (TerminalInfo::getWidth() - 42) / 2;
+} else {
+    $width = 19; // (80 - 40) / 2
+}
+
 function performDetection($filename) {
+    global $width;
     $type_ext = Detector::detectByFilename($filename);
     // open string as an URL if it's not readable
     $type_bin = Detector::detectByContent(!is_readable($filename) ? fopen($filename, 'r') : $filename);
-    echo sprintf('%34s | %-20s | %-20s', substrIfLonger(basename($filename), 34), $type_ext === false ? 'fail' : $type_ext[0].'/'.$type_ext[1], $type_bin === false ? 'fail' : $type_bin[0].'/'.$type_bin[1]).PHP_EOL;
+    echo sprintf('%34s | %-'.$width.'s | %-'.$width.'s', substrIfLonger(basename($filename), 34), $type_ext === false ? 'fail' : substrIfLonger($type_ext[0].': '  .$type_ext[1].' ('.$type_ext[2].')', $width), $type_bin === false ? 'fail' : substrIfLonger($type_bin[0].': '.$type_bin[1].' ('.$type_bin[2].')', $width)).PHP_EOL;
 }
 
 array_shift($argv);
-echo sprintf('%34s | %-20s | %-20s', 'File name', 'By extension', 'By content').PHP_EOL;
+echo sprintf('%34s | %-'.$width.'s | %-'.$width.'s', 'File name', 'By extension', 'By content').PHP_EOL;
 foreach ($argv as $arg) {
     if (strpos($arg, '*')) {
         foreach (glob($arg) as $f) {

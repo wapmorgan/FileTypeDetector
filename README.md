@@ -15,22 +15,22 @@ Files type detector based on file name extension or file content (binary content
 
 ## File Type detection
 
-- Detection by filename: `Detector::detectByFilename(...filename...)`
-- Detection by content: `Detector::detectByContent(...filename/resource...)`
+- Detection by file name: `Detector::detectByFilename(...filename...): array|boolean`
+- Detection by file content or stream content: `Detector::detectByContent(...filename/resource...): array|boolean`
+
+Both functions will returns `an array` with following elements in case of success:
+
+- `[0]` - Type of file (`Detector::AUDIO` and so on)
+- `[1]` - Format of file (`Detector::MP3` and so on)
+- `[2]` - Mime type of file (`'audio/mpeg'` for example)
+
+In case of failure it will return `false`.
 
 Example:
 
 ```php
 $type = wapmorgan\FileTypeDetector\Detector::detectByFilename($filename);
-
-// $type will contain file type as an array like this:
-// array(
-//   Detector::AUDIO,
-//   Detector::MP3
-// )
-// In case of failure it will contain `false`.
-
-
+// or
 $type = wapmorgan\FileTypeDetector\Detector::detectByContent('file-without-extension');
 // or
 $type = wapmorgan\FileTypeDetector\Detector::detectByContent(fopen('http://somedomain/somepath', 'r'));
@@ -38,12 +38,12 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(fopen('http://somed
 
 ## Mimetype generation
 
-To use correct mimetype for file there is `getMimeType($type)` function.
+To get correct mimetype for file only there is `getMimeType($file)` function.
 
 ```php
-$mime = wapmorgan\FileTypeDetector\Detector::getMimeType($type[1]);
+$mime = wapmorgan\FileTypeDetector\Detector::getMimeType($file);
 // or
-$mime = wapmorgan\FileTypeDetector\Detector::getMimeType(wapmorgan\FileTypeDetector\Detector::MP3); // audio/mpeg
+$mime = wapmorgan\FileTypeDetector\Detector::getMimeType(fopen('somefile', 'r'));
 ```
 
 # Installation
