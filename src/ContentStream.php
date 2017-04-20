@@ -4,6 +4,7 @@ namespace wapmorgan\FileTypeDetector;
 use \Exception;
 
 class ContentStream {
+    protected $openedOutside = false;
     protected $fp;
     protected $read = array();
 
@@ -15,6 +16,7 @@ class ContentStream {
         // open stream
         else if (is_resource($source) && get_resource_type($source) == 'stream') {
             $this->fp = $source;
+            $this->openedOutside = true;
             // cache all data if stream is not seekable
             $meta = stream_get_meta_data($source);
             if (!$meta['seekable']) {
@@ -77,6 +79,7 @@ class ContentStream {
     }
 
     public function __destruct() {
-        fclose($this->fp);
+        if (!$this->openedOutside)
+            fclose($this->fp);
     }
 }
