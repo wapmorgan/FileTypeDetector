@@ -103,84 +103,176 @@ class Detector {
         'mid' => self::MIDI,
     );
 
+    static protected $extensions = array(
+        'jpeg' => self::JPEG,
+        'bmp' => self::BMP,
+        'gif' => self::GIF,
+        'png' => self::PNG,
+        'tiff' => self::TIFF,
+        'psd' => self::PSD,
+        'arj' => self::ARJ,
+        'bz2' => self::BZIP2,
+        'gz' => self::GZIP,
+        'xz' => self::LZMA2,
+        '7z' => self::_7ZIP,
+        'cab' => self::CAB,
+        'jar' => self::JAR,
+        'rar' => self::RAR,
+        'tar' => self::TAR,
+        'zip' => self::ZIP,
+        'iso' => self::ISO,
+        'mdb' => self::MDB,
+        'odb' => self::ODB,
+        'doc' => self::DOC,
+        'docx' => self::DOCX,
+        'html' => self::HTML,
+        'odt' => self::ODT,
+        'pdf' => self::PDF,
+        'rtf' => self::RTF,
+        'txt' => self::TXT,
+        'md' => self::MARKDOWN,
+        'json' => self::JSON,
+        'yaml' => self::YAML,
+        'xml' => self::XML,
+        'atom' => self::ATOM,
+        'rss' => self::RSS,
+        'otf' => self::OTF,
+        'ttf' => self::TTF,
+        'apk' => self::APK,
+        'com' => self::COM,
+        'exe' => self::EXE,
+        'ppt' => self::PPT,
+        'pptx' => self::PPTX,
+        'odp' => self::ODP,
+        'flac' => self::FLAC,
+        'wma' => self::WMA,
+        'amr' => self::AMR,
+        'mp3' => self::MP3,
+        'aac' => self::AAC,
+        'm3u' => self::M3U,
+        'ogg' => self::OGG,
+        'wav' => self::WAV,
+        'midi' => self::MIDI,
+        'ods' => self::ODS,
+        'xls' => self::XLS,
+        'xlsx' => self::XLSX,
+        'csv' => self::CSV,
+        'tsv' => self::TSV,
+        '3gp' => self::_3GP,
+        'asf' => self::ASF,
+        'avi' => self::AVI,
+        'flv' => self::FLV,
+        'm4v' => self::M4V,
+        'mkv' => self::MKV,
+        'mov' => self::MOV,
+        'mpeg' => self::MPEG,
+        'mp4' => self::MP4,
+        'swf' => self::SWF,
+        'vob' => self::VOB,
+        'wmv' => self::WMV,
+        'webm' => self::WEBM,
+    );
+
     static protected $types = array(
-        'jpeg' => array(self::IMAGE, self::JPEG),
-        'bmp' => array(self::IMAGE, self::BMP),
-        'gif' => array(self::IMAGE, self::GIF),
-        'png' => array(self::IMAGE, self::PNG),
-        'tiff' => array(self::IMAGE, self::TIFF),
-        'psd' => array(self::IMAGE, self::PSD),
+        self::IMAGE => array(
+            self::JPEG,
+            self::BMP,
+            self::GIF,
+            self::PNG,
+            self::TIFF,
+            self::PSD,
+        ),
 
-        'arj' => array(self::ARCHIVE, self::ARJ),
-        'bz2' => array(self::ARCHIVE, self::BZIP2),
-        'gz' => array(self::ARCHIVE, self::GZIP),
-        'xz' => array(self::ARCHIVE, self::LZMA2),
-        '7z' => array(self::ARCHIVE, self::_7ZIP),
-        'cab' => array(self::ARCHIVE, self::CAB),
-        'jar' => array(self::ARCHIVE, self::JAR),
-        'rar' => array(self::ARCHIVE, self::RAR),
-        'tar' => array(self::ARCHIVE, self::TAR),
-        'zip' => array(self::ARCHIVE, self::ZIP),
-        'iso' => array(self::ARCHIVE, self::ISO),
+        self::ARCHIVE => array(
+            self::ARJ,
+            self::BZIP2,
+            self::GZIP,
+            self::LZMA2,
+            self::_7ZIP,
+            self::CAB,
+            self::JAR,
+            self::RAR,
+            self::TAR,
+            self::ZIP,
+            self::ISO,
+        ),
 
-        'mdb' => array(self::DATABASE, self::MDB),
-        'odb' => array(self::DATABASE, self::ODB),
+        self::DATABASE => array(
+            self::MDB,
+            self::ODB,
+        ),
 
-        'doc' => array(self::DOCUMENT, self::DOC),
-        'docx' => array(self::DOCUMENT, self::DOCX),
-        'html' => array(self::DOCUMENT, self::HTML),
-        'odt' => array(self::DOCUMENT, self::ODT),
-        'pdf' => array(self::DOCUMENT, self::PDF),
-        'rtf' => array(self::DOCUMENT, self::RTF),
-        'txt' => array(self::DOCUMENT, self::TXT),
-        'md' => array(self::DOCUMENT, self::MARKDOWN),
-        'json' => array(self::DOCUMENT, self::JSON),
-        'yaml' => array(self::DOCUMENT, self::YAML),
-        'xml' => array(self::DOCUMENT, self::XML),
+        self::DOCUMENT => array(
+            self::DOC,
+            self::DOCX,
+            self::HTML,
+            self::ODT,
+            self::PDF,
+            self::RTF,
+            self::TXT,
+            self::MARKDOWN,
+            self::JSON,
+            self::YAML,
+            self::XML,
+        ),
 
-        'atom' => array(self::FEED, self::ATOM),
-        'rss' => array(self::FEED, self::RSS),
+        self::FEED => array(
+            self::ATOM,
+            self::RSS,
+        ),
 
-        'otf' => array(self::FONT, self::OTF),
-        'ttf' => array(self::FONT, self::TTF),
+        self::FONT => array(
+            self::OTF,
+            self::TTF,
+        ),
 
-        'apk' => array(self::APPLICATION, self::APK),
-        'com' => array(self::APPLICATION, self::COM),
-        'exe' => array(self::APPLICATION, self::EXE),
+        self::APPLICATION => array(
+            self::APK,
+            self::COM,
+            self::EXE,
+        ),
 
-        'ppt' => array(self::PRESENTATION, self::PPT),
-        'pptx' => array(self::PRESENTATION, self::PPTX),
-        'odp' => array(self::PRESENTATION, self::ODP),
+        self::PRESENTATION => array(
+            self::PPT,
+            self::PPTX,
+            self::ODP,
+        ),
 
-        'flac' => array(self::AUDIO, self::FLAC),
-        'wma' => array(self::AUDIO, self::WMA),
-        'amr' => array(self::AUDIO, self::AMR),
-        'mp3' => array(self::AUDIO, self::MP3),
-        'aac' => array(self::AUDIO, self::AAC),
-        'm3u' => array(self::AUDIO, self::M3U),
-        'ogg' => array(self::AUDIO, self::OGG),
-        'wav' => array(self::AUDIO, self::WAV),
-        'midi' => array(self::AUDIO, self::MIDI),
+        self::AUDIO => array(
+            self::FLAC,
+            self::WMA,
+            self::AMR,
+            self::MP3,
+            self::AAC,
+            self::M3U,
+            self::OGG,
+            self::WAV,
+            self::MIDI,
+        ),
 
-        'ods' => array(self::SPREADSHEET, self::ODS),
-        'xls' => array(self::SPREADSHEET, self::XLS),
-        'xlsx' => array(self::SPREADSHEET, self::XLSX),
-        'csv' => array(self::SPREADSHEET, self::CSV),
-        'tsv' => array(self::SPREADSHEET, self::TSV),
+        self::SPREADSHEET => array(
+            self::ODS,
+            self::XLS,
+            self::XLSX,
+            self::CSV,
+            self::TSV,
+        ),
 
-        '3gp' => array(self::VIDEO, self::_3GP),
-        'asf' => array(self::VIDEO, self::ASF),
-        'avi' => array(self::VIDEO, self::AVI),
-        'flv' => array(self::VIDEO, self::FLV),
-        'm4v' => array(self::VIDEO, self::M4V),
-        'mkv' => array(self::VIDEO, self::MKV),
-        'mov' => array(self::VIDEO, self::MOV),
-        'mpeg' => array(self::VIDEO, self::MPEG),
-        'mp4' => array(self::VIDEO, self::MP4),
-        'swf' => array(self::VIDEO, self::SWF),
-        'vob' => array(self::VIDEO, self::VOB),
-        'wmv' => array(self::VIDEO, self::WMV),
-        'webm' => array(self::VIDEO, self::WEBM),
+        self::VIDEO => array(
+            self::_3GP,
+            self::ASF,
+            self::AVI,
+            self::FLV,
+            self::M4V,
+            self::MKV,
+            self::MOV,
+            self::MPEG,
+            self::MP4,
+            self::SWF,
+            self::VOB,
+            self::WMV,
+            self::WEBM,
+        ),
     );
 
     static protected $mimeTypes = array(
@@ -514,9 +606,15 @@ class Detector {
     static public function detectByFilename($filename) {
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         if (isset(self::$aliases[$ext])) $ext = self::$aliases[$ext];
-        if (isset(self::$types[$ext])) {
-            $format = self::$types[$ext];
-            $format[] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
+        if (isset(self::$extensions[$ext])) {
+            $format = array(null, self::$extensions[$ext]);
+            foreach (self::$types as $type => $formats) {
+                if (in_array($format[1], $formats)) {
+                    $format[0] = $type;
+                    break;
+                }
+            }
+            $format[2] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
             return $format;
         }
         return false;
@@ -524,7 +622,7 @@ class Detector {
 
     static public function detectByContent($source) {
         $stream = new ContentStream($source);
-        foreach (self::$signatures as $type => $signatures) {
+        foreach (self::$signatures as $format => $signatures) {
             foreach ($signatures as $or_signature) {
                 $passed = true;
                 foreach ($or_signature as $offset => $and_signature) {
@@ -548,8 +646,14 @@ class Detector {
                 }
                 // if earlier we did not break inner loop, then all signatures matched
                 if ($passed) {
-                    $format = self::$types[$type];
-                    $format[] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
+                    $format = array(null, $format);
+                    foreach (self::$types as $type => $formats) {
+                        if (in_array($format[1], $formats)) {
+                            $format[0] = $type;
+                            break;
+                        }
+                    }
+                    $format[2] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
                     return $format;
                 }
             }
@@ -557,12 +661,10 @@ class Detector {
         return false;
     }
 
-    static public function getMimeType($format) {
+    static public function getMimeType($file) {
         $format = self::detectByFilename($file) ?: self::detectByContent($file);
         if ($format === false)
             return false;
-        if (!isset(self::$mimeTypes[$format[1]]))
-            return false;
-        return self::$mimeTypes[$format[1]];
+        return $format[2];
     }
 }
