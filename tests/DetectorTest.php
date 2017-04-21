@@ -1,6 +1,6 @@
 <?php
-require __DIR__.'/../vendor/autoload.php';
 namespace wapmorgan\test\FileTypeDetector;
+require __DIR__.'/../vendor/autoload.php';
 
 use PHPUnit_Framework_TestCase;
 use wapmorgan\FileTypeDetector\Detector;
