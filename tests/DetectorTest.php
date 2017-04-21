@@ -1,4 +1,5 @@
 <?php
+require __DIR__.'/../vendor/autoload.php';
 namespace wapmorgan\test\FileTypeDetector;
 
 use PHPUnit_Framework_TestCase;
