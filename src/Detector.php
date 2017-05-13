@@ -6,6 +6,7 @@ class Detector {
     const VIDEO = 'video';
     const IMAGE = 'image';
     const ARCHIVE = 'archive';
+    const DISK_IMAGE = 'disk_image';
     const DATABASE = 'database';
     const DOCUMENT = 'document';
     const FONT = 'font';
@@ -13,6 +14,7 @@ class Detector {
     const PRESENTATION = 'presentation';
     const SPREADSHEET = 'spreadsheet';
     const FEED = 'feed';
+    const SCENARIO = 'scenario';
 
     const JPEG = 'jpeg';
     const BMP = 'bmp';
@@ -20,6 +22,7 @@ class Detector {
     const PNG = 'png';
     const TIFF = 'tiff';
     const PSD = 'psd';
+    const ICO = 'ico';
 
     const ARJ = 'arj';
     const BZIP2 = 'bzip2';
@@ -31,10 +34,17 @@ class Detector {
     const RAR = 'rar';
     const TAR = 'tar';
     const ZIP = 'zip';
-    const ISO = 'iso';
+    const ARC = 'arc';
+    const DAR = 'dar';
 
+    const ISO = 'iso';
+    const NRG = 'nrg';
+    const VHD = 'vhd';
+
+    const ACCDB = 'accdb';
     const MDB = 'mdb';
     const ODB = 'odb';
+    const SQLITE = 'sqlite';
 
     const DOC = 'doc';
     const DOCX = 'docx';
@@ -57,6 +67,7 @@ class Detector {
     const APK = 'apk';
     const COM = 'com';
     const EXE = 'exe';
+    const XAP = 'xap';
 
     const PPT = 'ppt';
     const PPTX = 'pptx';
@@ -92,6 +103,8 @@ class Detector {
     const WMV = 'wmv';
     const WEBM = 'webm';
 
+    const REG = 'reg';
+
     static protected $aliases = array(
         'jpg' => self::JPEG,
         'tif' => self::TIFF,
@@ -110,6 +123,7 @@ class Detector {
         'png' => self::PNG,
         'tiff' => self::TIFF,
         'psd' => self::PSD,
+        'ico' => self::ICO,
         'arj' => self::ARJ,
         'bz2' => self::BZIP2,
         'gz' => self::GZIP,
@@ -120,7 +134,12 @@ class Detector {
         'rar' => self::RAR,
         'tar' => self::TAR,
         'zip' => self::ZIP,
+        'arc' => self::ARC,
+        'dar' => self::DAR,
         'iso' => self::ISO,
+        'nrg' => self::NRG,
+        'vhd' => self::VHD,
+        'accdb' => self::ACCDB,
         'mdb' => self::MDB,
         'odb' => self::ODB,
         'doc' => self::DOC,
@@ -141,6 +160,7 @@ class Detector {
         'apk' => self::APK,
         'com' => self::COM,
         'exe' => self::EXE,
+        'xap' => self::XAP,
         'ppt' => self::PPT,
         'pptx' => self::PPTX,
         'odp' => self::ODP,
@@ -171,6 +191,7 @@ class Detector {
         'vob' => self::VOB,
         'wmv' => self::WMV,
         'webm' => self::WEBM,
+        'reg' => self::REG,
     );
 
     static protected $types = array(
@@ -181,6 +202,7 @@ class Detector {
             self::PNG,
             self::TIFF,
             self::PSD,
+            self::ICO,
         ),
 
         self::ARCHIVE => array(
@@ -194,12 +216,21 @@ class Detector {
             self::RAR,
             self::TAR,
             self::ZIP,
+            self::ARC,
+            self::DAR,
+        ),
+
+        self::DISK_IMAGE => array(
             self::ISO,
+            self::NRG,
+            self::VHD,
         ),
 
         self::DATABASE => array(
+            self::ACCDB,
             self::MDB,
             self::ODB,
+            self::SQLITE,
         ),
 
         self::DOCUMENT => array(
@@ -230,6 +261,7 @@ class Detector {
             self::APK,
             self::COM,
             self::EXE,
+            self::XAP,
         ),
 
         self::PRESENTATION => array(
@@ -273,6 +305,10 @@ class Detector {
             self::WMV,
             self::WEBM,
         ),
+
+        self::SCENARIO => array(
+            self::REG,
+        ),
     );
 
     static protected $mimeTypes = array(
@@ -282,6 +318,7 @@ class Detector {
         self::PNG => 'image/png',
         self::TIFF => 'image/tiff',
         self::PSD => 'image/vnd.adobe.photoshop',
+        self::ICO => 'image/x-icon',
 
         self::ARJ => 'application/arj',
         self::BZIP2 => 'application/x-bzip2',
@@ -293,10 +330,15 @@ class Detector {
         self::RAR => 'application/x-rar-compressed',
         self::TAR => 'application/x-tar',
         self::ZIP => 'application/zip',
+        self::ARC => 'application/x-freearc',
+        self::DAR => 'application/x-dar',
+
         self::ISO => 'application/x-iso9660-image',
 
+        self::ACCDB => 'application/x-msaccess',
         self::MDB => 'application/x-msaccess',
         self::ODB => 'application/vnd.oasis.opendocument.database',
+        self::SQLITE => 'application/x-sqlite3',
 
         self::DOC => 'application/msword',
         self::DOCX => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -319,6 +361,7 @@ class Detector {
         self::APK => 'application/vnd.android.package-archive',
         self::COM => 'application/x-msdownload',
         self::EXE => 'application/x-msdownload',
+        self::XAP => 'application/x-silverlight-app',
 
         self::PPT => 'application/vnd.ms-powerpoint',
         self::PPTX => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
@@ -352,6 +395,8 @@ class Detector {
         self::VOB => 'video/x-ms-vob',
         self::WMV => 'video/x-ms-wmv',
         self::WEBM => 'video/webm',
+
+        self::REG => 'text/plain',
     );
 
     static protected $signatures = [
@@ -365,11 +410,16 @@ class Detector {
         ],
         self::PNG => [[0 => [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]]],
         self::TIFF => [
+            [0 => [0x49, 0x20, 0x49]],
+            // or
             [0 => [0x49, 0x49, 0x2A, 0x00]],
             // or
-            [0 => [0x4D, 0x4D, 0x00, 0x2A]]
+            [0 => [0x4D, 0x4D, 0x00, 0x2A]],
+            // or
+            [0 => [0x4D, 0x4D, 0x00, 0x2B]]
         ],
         self::PSD => [[0 => [0x38, 0x42, 0x50, 0x53]]],
+        self::ICO => [[0 => [0x00, 0x00, 0x01, 0x00]]],
 
         // Archives signatures
         self::ARJ => [[0 => [0x60, 0xEA]]],
@@ -392,10 +442,21 @@ class Detector {
             // or
             [0 => [0x75, 0x73, 0x74, 0x61, 0x72, 0x20, 0x20, 0x00]]
         ],
+        self::ARC => [[0 => [0x41, 0x72, 0x43, 0x01]]],
+        self::DAR => [[0 => [0x00, 0x00, 0x00, 0x7B]]],
+
+        // Disk images signatures
         self::ISO => [[0 => [0x43, 0x44, 0x30, 0x30, 0x31]]],
+        self::NRG => [
+            [-8 => ['N', 'E', 'R', 'O']],
+            // or
+            [-12 => ['N', 'E', 'R', '5']]
+        ],
 
         // Spreadsheets signatures
+        self::ACCDB => [[0 => [0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E, 0x64, 0x61, 0x72, 0x64, 0x20, 0x41, 0x43, 0x45, 0x20, 0x44, 0x42]]],
         self::MDB => [[0 => [0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E, 0x64, 0x61, 0x72, 0x64, 0x20, 0x4A, 0x65, 0x74, 0x20, 0x44, 0x42]]],
+        self::SQLITE => [[0 => [0x53, 0x51, 0x4C, 0x69, 0x74, 0x65, 0x20, 0x66, 0x6F, 0x72, 0x6D, 0x61, 0x74, 0x20, 0x33, 0x00]]],
 
         // Microsoft Office old formats (doc, xls, ppt)
         self::DOC => [
@@ -600,6 +661,13 @@ class Detector {
             [0 => [0x50, 0x4B, 0x05, 0x06]],
             // or
             [0 => [0x50, 0x4B, 0x07, 0x08]]
+        ],
+
+        // Scneraios formats
+        self::REG => [
+            [0 => [0xFF, 0xFE]],
+            // or
+            [0 => [0x52, 0x45, 0x47, 0x45, 0x44, 0x49, 0x54]]
         ]
     ];
 
