@@ -55,38 +55,97 @@ composer require wapmorgan/file-type-detector
 
 # Supported formats
 
-| Multimedia                   | Office documents                     | System files                     | Other files                    |
-|------------------------------|--------------------------------------|----------------------------------|--------------------------------|
-| **Images**                   | **Databases**                        | **Fonts**                        | **Archives**                   |
-| `Detector::BMP` - **.bmp**   | `Detector::MDB` - **.mdb**           | `Detector::OTF` - **.otf**       | `Detector::_7ZIP` - **.7z**    |
-| `Detector::GIF` - **.gif**   | `Detector::ODB` - **.odb**           | `Detector::TTF` - **.ttf**       | `Detector::ARJ` - **.arj**     |
-| `Detector::JPEG` - **.jpeg** |                                      |                                  | `Detector::BZIP2` - **.bzip2** |
-| `Detector::PNG` - **.png**   | **Spreadsheets**                     | **Executables and applications** | `Detector::CAB` - **.cab**     |
-| `Detector::PSD` - **.psd**   | `Detector::CSV` - **.csv**           | `Detector::APK` - **.apk**       | `Detector::GZIP` - **.gzip**   |
-| `Detector::TIFF` - **.tiff** | `Detector::ODS` - **.ods**           | `Detector::COM` - **.com**       | `Detector::ISO` - **.iso**     |
-|                              | `Detector::TSV` - **.tsv**           | `Detector::EXE` - **.exe**       | `Detector::JAR` - **.jar**     |
-| **Videos**                   | `Detector::XLS` - **.xls**           |                                  | `Detector::LZMA2` - **.lzma2** |
-| `Detector::_3GP` - **.3gp**  | `Detector::XLSX` - **.xlsx**         |                                  | `Detector::RAR` - **.rar**     |
-| `Detector::ASF` - **.asf**   |                                      |                                  | `Detector::TAR` - **.tar**     |
-| `Detector::AVI` - **.avi**   | **Text and documents**               |                                  | `Detector::ZIP` - **.zip**     |
-| `Detector::FLV` - **.flv**   | `Detector::DOC` - **.doc**           |                                  |                                |
-| `Detector::M4V` - **.m4v**   | `Detector::DOCX` - **.docx**         |                                  | **Interned feeds**             |
-| `Detector::MKV` - **.mkv**   | `Detector::HTML` - **.html**         |                                  | `Detector::ATOM` - **.atom**   |
-| `Detector::MOV` - **.mov**   | `Detector::ODT` - **.odt**           |                                  | `Detector::RSS` - **.rss**     |
-| `Detector::MPEG` - **.mpeg** | `Detector::PDF` - **.pdf**           |                                  |                                |
-| `Detector::MP4` - **.mp4**   | `Detector::RTF` - **.rtf**           |                                  |                                |
-| `Detector::SWF` - **.swf**   | `Detector::TXT` - **.txt**           |                                  |                                |
-| `Detector::VOB` - **.vob**   | `Detector::MARKDOWN` - **.markdown** |                                  |                                |
-| `Detector::WEBM` - **.webm** | `Detector::JSON` - **.json**         |                                  |                                |
-| `Detector::WMV` - **.wmv**   | `Detector::XML` - **.xml**           |                                  |                                |
-|                              | `Detector::YAML` - **.yaml**         |                                  |                                |
-| **Audios**                   |                                      |                                  |                                |
-| `Detector::AAC` - **.aac**   | **Presentations**                    |                                  |                                |
-| `Detector::AMR` - **.amr**   | `Detector::PPT` - **.ppt**           |                                  |                                |
-| `Detector::FLAC` - **.flac** | `Detector::PPTX` - **.pptx**         |                                  |                                |
-| `Detector::M3U` - **.m3u**   | `Detector::ODP` - **.odp**           |                                  |                                |
-| `Detector::MIDI` - **.midi** |                                      |                                  |                                |
-| `Detector::MP3` - **.mp3**   |                                      |                                  |                                |
-| `Detector::OGG` - **.ogg**   |                                      |                                  |                                |
-| `Detector::WAV` - **.wav**   |                                      |                                  |                                |
-| `Detector::WMA` - **.wma**   |                                      |                                  |                                |
+Available to use types and their formats.
+
+| Image | Archive | Database | Document | Feed | Font | Application | Presentation | Audio | Spreadsheet | Video | Scenario |
+|-------|---------|----------|----------|------|------|-------------|--------------|-------|-------------|-------|----------|
+| jpeg  | arj     | accdb    | doc      | atom | otf  | apk         | ppt          | flac  | ods         | 3gp   | reg      |
+| bmp   | bzip2   | mdb      | docx     | rss  | ttf  | com         | pptx         | wma   | xls         | asf   |          |
+| gif   | gzip    | odb      | html     |      |      | exe         | odp          | amr   | xlsx        | avi   |          |
+| png   | lzma2   | sqlite   | odt      |      |      |             |              | mp3   | csv         | flv   |          |
+| tiff  | 7z      |          | pdf      |      |      |             |              | aac   | tsv         | m4v   |          |
+| psd   | cab     |          | rtf      |      |      |             |              | m3u   |             | mkv   |          |
+| ico   | jar     |          | txt      |      |      |             |              | ogg   |             | mov   |          |
+|       | rar     |          | markdown |      |      |             |              | wav   |             | mpeg  |          |
+|       | tar     |          | json     |      |      |             |              | midi  |             | mp4   |          |
+|       | zip     |          | yaml     |      |      |             |              |       |             | swf   |          |
+|       | iso     |          | xml      |      |      |             |              |       |             | vob   |          |
+|       | arc     |          |          |      |      |             |              |       |             | wmv   |          |
+|       | dar     |          |          |      |      |             |              |       |             | webm  |          |
+
+Formats support status.
+
+| Format   | Extension | Detection by content | MimeType                                                                  |
+|----------|-----------|----------------------|---------------------------------------------------------------------------|
+| Jpeg     | jpeg      | +                    | image/jpeg                                                                |
+| Bmp      | bmp       | +                    | image/bmp                                                                 |
+| Gif      | gif       | +                    | image/gif                                                                 |
+| Png      | png       | +                    | image/png                                                                 |
+| Tiff     | tiff      | +                    | image/tiff                                                                |
+| Psd      | psd       | +                    | image/vnd.adobe.photoshop                                                 |
+| Ico      | ico       | +                    | image/x-icon                                                              |
+| Arj      | arj       | +                    | application/arj                                                           |
+| Bzip2    | bz2       | +                    | application/x-bzip2                                                       |
+| Gzip     | gz        | +                    | application/gzip                                                          |
+| Lzma2    | xz        | -                    | application/x-xz                                                          |
+| 7z       | 7z        | +                    | application/x-7z-compressed                                               |
+| Cab      | cab       | +                    | application/vnd.ms-cab-compressed                                         |
+| Jar      | jar       | +                    | application/java-archive                                                  |
+| Rar      | rar       | +                    | application/x-rar-compressed                                              |
+| Tar      | tar       | +                    | application/x-tar                                                         |
+| Zip      | zip       | +                    | application/zip                                                           |
+| Iso      | iso       | +                    | application/x-iso9660-image                                               |
+| Arc      | arc       | +                    | application/x-freearc                                                     |
+| Dar      | dar       | +                    | application/x-dar                                                         |
+| Accdb    | accdb     | +                    | application/x-msaccess                                                    |
+| Mdb      | mdb       | +                    | application/x-msaccess                                                    |
+| Odb      | odb       | +                    | application/vnd.oasis.opendocument.database                               |
+| Doc      | doc       | +                    | application/msword                                                        |
+| Docx     | docx      | +                    | application/vnd.openxmlformats-officedocument.wordprocessingml.document   |
+| Html     | html      | +                    | text/html                                                                 |
+| Odt      | odt       | +                    | application/vnd.oasis.opendocument.text                                   |
+| Pdf      | pdf       | +                    | application/pdf                                                           |
+| Rtf      | rtf       | +                    | application/rtf                                                           |
+| Txt      | txt       | -                    | text/plain                                                                |
+| Markdown | md        | -                    | text/markdown                                                             |
+| Json     | json      | -                    | application/json                                                          |
+| Yaml     | yaml      | -                    | text/yaml                                                                 |
+| Xml      | xml       | +                    | application/xml                                                           |
+| Atom     | atom      | +                    | application/atom+xml                                                      |
+| Rss      | rss       | +                    | application/rss+xml                                                       |
+| Otf      | otf       | +                    | application/x-font-otf                                                    |
+| Ttf      | ttf       | +                    | application/x-font-ttf                                                    |
+| Apk      | apk       | +                    | application/vnd.android.package-archive                                   |
+| Com      | com       | -                    | application/x-msdownload                                                  |
+| Exe      | exe       | +                    | application/x-msdownload                                                  |
+| Ppt      | ppt       | +                    | application/vnd.ms-powerpoint                                             |
+| Pptx     | pptx      | +                    | application/vnd.openxmlformats-officedocument.presentationml.presentation |
+| Odp      | odp       | +                    | application/vnd.oasis.opendocument.presentation                           |
+| Flac     | flac      | +                    | audio/x-flac                                                              |
+| Wma      | wma       | -                    | audio/x-ms-wma                                                            |
+| Amr      | amr       | +                    | audio/amr                                                                 |
+| Mp3      | mp3       | +                    | audio/mpeg                                                                |
+| Aac      | aac       | +                    | audio/x-aac                                                               |
+| M3u      | m3u       | +                    | audio/x-mpegurl                                                           |
+| Ogg      | ogg       | +                    | audio/ogg                                                                 |
+| Wav      | wav       | -                    | audio/x-wav                                                               |
+| Midi     | midi      | +                    | audio/midi                                                                |
+| Ods      | ods       | +                    | application/vnd.oasis.opendocument.spreadsheet                            |
+| Xls      | xls       | +                    | application/vnd.ms-excel                                                  |
+| Xlsx     | xlsx      | +                    | application/vnd.openxmlformats-officedocument.spreadsheetml.sheet         |
+| Csv      | csv       | -                    | text/csv                                                                  |
+| Tsv      | tsv       | -                    | text/tab-separated-values                                                 |
+| 3gp      | 3gp       | +                    | video/3gpp                                                                |
+| Asf      | asf       | -                    | -                                                                         |
+| Avi      | avi       | +                    | video/x-msvideo                                                           |
+| Flv      | flv       | +                    | video/x-flv                                                               |
+| M4v      | m4v       | +                    | video/x-m4v                                                               |
+| Mkv      | mkv       | +                    | video/x-matroska                                                          |
+| Mov      | mov       | +                    | video/quicktime                                                           |
+| Mpeg     | mpeg      | +                    | video/mpeg                                                                |
+| Mp4      | mp4       | +                    | video/mp4                                                                 |
+| Swf      | swf       | +                    | application/x-shockwave-flash                                             |
+| Vob      | vob       | +                    | video/x-ms-vob                                                            |
+| Wmv      | wmv       | -                    | video/x-ms-wmv                                                            |
+| Webm     | webm      | +                    | video/webm                                                                |
+| Reg      | reg       | +                    | text/plain                                                                |
