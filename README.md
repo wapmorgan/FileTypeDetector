@@ -57,21 +57,21 @@ composer require wapmorgan/file-type-detector
 
 Available to use types and their formats.
 
-| Image | Archive | Database | Document | Feed | Font | Application | Presentation | Audio | Spreadsheet | Video | Scenario |
-|-------|---------|----------|----------|------|------|-------------|--------------|-------|-------------|-------|----------|
-| bmp   | 7z      | accdb    | doc      | atom | otf  | apk         | odp          | aac   | csv         | 3gp   | reg      |
-| gif   | arc     | mdb      | docx     | rss  | ttf  | com         | ppt          | amr   | ods         | asf   |          |
-| ico   | arj     | odb      | html     |      |      | exe         | pptx         | flac  | tsv         | avi   |          |
-| jpeg  | bzip2   | sqlite   | json     |      |      | xap         |              | m3u   | xls         | flv   |          |
-| png   | cab     |          | markdown |      |      |             |              | midi  | xlsx        | m4v   |          |
-| psd   | dar     |          | odt      |      |      |             |              | mp3   |             | mkv   |          |
-| tiff  | gzip    |          | pdf      |      |      |             |              | ogg   |             | mov   |          |
-|       | iso     |          | rtf      |      |      |             |              | wav   |             | mp4   |          |
-|       | jar     |          | txt      |      |      |             |              | wma   |             | mpeg  |          |
-|       | lzma2   |          | xml      |      |      |             |              |       |             | swf   |          |
-|       | rar     |          | yaml     |      |      |             |              |       |             | vob   |          |
-|       | tar     |          |          |      |      |             |              |       |             | webm  |          |
-|       | zip     |          |          |      |      |             |              |       |             | wmv   |          |
+| Image | Archive | Disk Image | Database | Document | Feed | Font | Application | Presentation | Audio | Spreadsheet | Video | Scenario |
+|-------|---------|------------|----------|----------|------|------|-------------|--------------|-------|-------------|-------|----------|
+| bmp   | 7z      | iso        | accdb    | doc      | atom | otf  | apk         | odp          | aac   | csv         | 3gp   | reg      |
+| gif   | arc     | nrg        | mdb      | docx     | rss  | ttf  | com         | ppt          | amr   | ods         | asf   |          |
+| ico   | arj     | vhd        | odb      | html     |      |      | exe         | pptx         | flac  | tsv         | avi   |          |
+| jpeg  | bzip2   |            | sqlite   | json     |      |      | xap         |              | m3u   | xls         | flv   |          |
+| png   | cab     |            |          | markdown |      |      |             |              | midi  | xlsx        | m4v   |          |
+| psd   | dar     |            |          | odt      |      |      |             |              | mp3   |             | mkv   |          |
+| tiff  | gzip    |            |          | pdf      |      |      |             |              | ogg   |             | mov   |          |
+|       | jar     |            |          | rtf      |      |      |             |              | wav   |             | mp4   |          |
+|       | lzma2   |            |          | txt      |      |      |             |              | wma   |             | mpeg  |          |
+|       | rar     |            |          | xml      |      |      |             |              |       |             | swf   |          |
+|       | tar     |            |          | yaml     |      |      |             |              |       |             | vob   |          |
+|       | zip     |            |          |          |      |      |             |              |       |             | webm  |          |
+|       |         |            |          |          |      |      |             |              |       |             | wmv   |          |
 
 Formats support status.
 
@@ -94,9 +94,11 @@ Formats support status.
 | Rar      | rar       | +                    | application/x-rar-compressed                                              |
 | Tar      | tar       | +                    | application/x-tar                                                         |
 | Zip      | zip       | +                    | application/zip                                                           |
-| Iso      | iso       | +                    | application/x-iso9660-image                                               |
 | Arc      | arc       | +                    | application/x-freearc                                                     |
 | Dar      | dar       | +                    | application/x-dar                                                         |
+| Iso      | iso       | +                    | application/x-iso9660-image                                               |
+| Nrg      | nrg       | +                    | -                                                                         |
+| Vhd      | vhd       | -                    | -                                                                         |
 | Accdb    | accdb     | +                    | application/x-msaccess                                                    |
 | Mdb      | mdb       | +                    | application/x-msaccess                                                    |
 | Odb      | odb       | +                    | application/vnd.oasis.opendocument.database                               |
@@ -118,6 +120,7 @@ Formats support status.
 | Apk      | apk       | +                    | application/vnd.android.package-archive                                   |
 | Com      | com       | -                    | application/x-msdownload                                                  |
 | Exe      | exe       | +                    | application/x-msdownload                                                  |
+| Xap      | xap       | -                    | application/x-silverlight-app                                             |
 | Ppt      | ppt       | +                    | application/vnd.ms-powerpoint                                             |
 | Pptx     | pptx      | +                    | application/vnd.openxmlformats-officedocument.presentationml.presentation |
 | Odp      | odp       | +                    | application/vnd.oasis.opendocument.presentation                           |
