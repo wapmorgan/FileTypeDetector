@@ -59,19 +59,19 @@ Available to use types and their formats.
 
 | Image | Archive | Database | Document | Feed | Font | Application | Presentation | Audio | Spreadsheet | Video | Scenario |
 |-------|---------|----------|----------|------|------|-------------|--------------|-------|-------------|-------|----------|
-| jpeg  | arj     | accdb    | doc      | atom | otf  | apk         | ppt          | flac  | ods         | 3gp   | reg      |
-| bmp   | bzip2   | mdb      | docx     | rss  | ttf  | com         | pptx         | wma   | xls         | asf   |          |
-| gif   | gzip    | odb      | html     |      |      | exe         | odp          | amr   | xlsx        | avi   |          |
-| png   | lzma2   | sqlite   | odt      |      |      |             |              | mp3   | csv         | flv   |          |
-| tiff  | 7z      |          | pdf      |      |      |             |              | aac   | tsv         | m4v   |          |
-| psd   | cab     |          | rtf      |      |      |             |              | m3u   |             | mkv   |          |
-| ico   | jar     |          | txt      |      |      |             |              | ogg   |             | mov   |          |
-|       | rar     |          | markdown |      |      |             |              | wav   |             | mpeg  |          |
-|       | tar     |          | json     |      |      |             |              | midi  |             | mp4   |          |
-|       | zip     |          | yaml     |      |      |             |              |       |             | swf   |          |
-|       | iso     |          | xml      |      |      |             |              |       |             | vob   |          |
-|       | arc     |          |          |      |      |             |              |       |             | wmv   |          |
-|       | dar     |          |          |      |      |             |              |       |             | webm  |          |
+| bmp   | 7z      | accdb    | doc      | atom | otf  | apk         | odp          | aac   | csv         | 3gp   | reg      |
+| gif   | arc     | mdb      | docx     | rss  | ttf  | com         | ppt          | amr   | ods         | asf   |          |
+| ico   | arj     | odb      | html     |      |      | exe         | pptx         | flac  | tsv         | avi   |          |
+| jpeg  | bzip2   | sqlite   | json     |      |      | xap         |              | m3u   | xls         | flv   |          |
+| png   | cab     |          | markdown |      |      |             |              | midi  | xlsx        | m4v   |          |
+| psd   | dar     |          | odt      |      |      |             |              | mp3   |             | mkv   |          |
+| tiff  | gzip    |          | pdf      |      |      |             |              | ogg   |             | mov   |          |
+|       | iso     |          | rtf      |      |      |             |              | wav   |             | mp4   |          |
+|       | jar     |          | txt      |      |      |             |              | wma   |             | mpeg  |          |
+|       | lzma2   |          | xml      |      |      |             |              |       |             | swf   |          |
+|       | rar     |          | yaml     |      |      |             |              |       |             | vob   |          |
+|       | tar     |          |          |      |      |             |              |       |             | webm  |          |
+|       | zip     |          |          |      |      |             |              |       |             | wmv   |          |
 
 Formats support status.
 
