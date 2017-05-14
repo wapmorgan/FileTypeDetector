@@ -60,7 +60,7 @@ switch ($table) {
 
 		echo 'Format,Extension,"Detection by content",MimeType,Signature'.PHP_EOL;
 
-		sort($all_formats);
+		asort($all_formats);
 
 		foreach ($all_formats as $extension => $format) {
 			echo ucfirst($format).','.$extension.','.(isset($signatures[$format]) ? '+' : '-').','.(isset($mimetypes[$format]) ? $mimetypes[$format] : '-').',';
