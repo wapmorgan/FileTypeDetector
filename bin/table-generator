@@ -10,6 +10,14 @@ $properties = $class->getDefaultProperties();
 $all_formats = $properties['extensions'];
 $all_types = $properties['types'];
 
+function bytesArray2String(array $bytes) {
+	$output = null;
+	foreach ($bytes as $byte) {
+		$output .= dechex($byte);
+	}
+	return $output;
+}
+
 if (isset($argv[1]) && in_array($argv[1], array('types', 'support'))) {
 	$table = $argv[1];
 } else {
@@ -22,6 +30,8 @@ if (isset($argv[1]) && in_array($argv[1], array('types', 'support'))) {
 
 switch ($table) {
 	case 'types':
+
+		ksort($all_types);
 
 		$i = 0;
 		foreach ($all_types as $type => $type_formats) {
@@ -48,10 +58,32 @@ switch ($table) {
 		$mimetypes = $properties['mimeTypes'];
 		$signatures = $properties['signatures'];
 
-		echo 'Format,Extension,"Detection by content",MimeType'.PHP_EOL;
+		echo 'Format,Extension,"Detection by content",MimeType,Signature'.PHP_EOL;
+
+		sort($all_formats);
 
 		foreach ($all_formats as $extension => $format) {
-			echo ucfirst($format).','.$extension.','.(isset($signatures[$format]) ? '+' : '-').','.(isset($mimetypes[$format]) ? $mimetypes[$format] : '-').PHP_EOL;
+			echo ucfirst($format).','.$extension.','.(isset($signatures[$format]) ? '+' : '-').','.(isset($mimetypes[$format]) ? $mimetypes[$format] : '-').',';
+			if (isset($signatures[$format])) {
+				foreach ($signatures[$format] as $j => $format_signature) {
+					if ($j > 0) echo ' / ';
+					$i = 0;
+					foreach ($format_signature as $offset => $signature_part) {
+						if ($i++ > 0) echo ' & ';
+						echo 'at ['.$offset.']: (';
+						if (is_string($signature_part)) echo '\''.$signature_part.'\'';
+						else {
+							if (isset($signature_part['bytes'])) {
+								echo 'fuzzy search \''.implode(null, $signature_part['bytes']).'\'';
+							}
+							else if (is_integer($signature_part[0])) echo '0x'.bytesArray2String($signature_part);
+							else echo '\''.implode(null, $signature_part).'\'';
+						}
+						echo ') ';
+					}
+				}
+			}
+			echo PHP_EOL;
 		}
 
 		break;
