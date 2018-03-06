@@ -105,7 +105,7 @@ class Detector {
 
     const REG = 'reg';
 
-    static protected $aliases = array(
+    protected static $aliases = array(
         'jpg' => self::JPEG,
         'tif' => self::TIFF,
         'mpg' => self::MPEG,
@@ -116,7 +116,7 @@ class Detector {
         'mid' => self::MIDI,
     );
 
-    static protected $extensions = array(
+    protected static $extensions = array(
         'jpeg' => self::JPEG,
         'bmp' => self::BMP,
         'gif' => self::GIF,
@@ -194,7 +194,7 @@ class Detector {
         'reg' => self::REG,
     );
 
-    static protected $types = array(
+    protected static $types = array(
         self::IMAGE => array(
             self::JPEG,
             self::BMP,
@@ -311,7 +311,7 @@ class Detector {
         ),
     );
 
-    static protected $mimeTypes = array(
+    protected static $mimeTypes = array(
         self::JPEG => 'image/jpeg',
         self::BMP => 'image/bmp',
         self::GIF => 'image/gif',
@@ -399,7 +399,7 @@ class Detector {
         self::REG => 'text/plain',
     );
 
-    static protected $signatures = [
+    protected static $signatures = [
         // Images signatures
         self::JPEG => [[0 => [0xFF, 0xD8, 0xFF, 0xE0]]],
         self::BMP => [[0 => [0x42, 0x4D]]],
@@ -671,7 +671,7 @@ class Detector {
         ]
     ];
 
-    static public function detectByFilename($filename) {
+    public static function detectByFilename($filename) {
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         if (isset(self::$aliases[$ext])) $ext = self::$aliases[$ext];
         if (isset(self::$extensions[$ext])) {
@@ -688,7 +688,7 @@ class Detector {
         return false;
     }
 
-    static public function detectByContent($source) {
+    public static function detectByContent($source) {
         $stream = new ContentStream($source);
         foreach (self::$signatures as $format => $signatures) {
             foreach ($signatures as $or_signature) {
@@ -729,7 +729,7 @@ class Detector {
         return false;
     }
 
-    static public function getMimeType($file) {
+    public static function getMimeType($file) {
         $format = self::detectByFilename($file) ?: self::detectByContent($file);
         if ($format === false)
             return false;

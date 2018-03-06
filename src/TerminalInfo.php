@@ -4,7 +4,7 @@ namespace wapmorgan\FileTypeDetector;
 class TerminalInfo {
     const WIDTH = 1;
     const HEIGHT = 2;
-    static public function isInteractive() {
+    public static function isInteractive() {
         if (strncasecmp(PHP_OS, 'win', 3) === 0) {
             // windows has no test for that
             return true;
@@ -18,7 +18,7 @@ class TerminalInfo {
         }
     }
 
-    static public function getWidth() {
+    public static function getWidth() {
         if (strncasecmp(PHP_OS, 'win', 3) === 0) {
             return self::getWindowsTerminalSize(self::WIDTH);
         } else {
@@ -26,7 +26,7 @@ class TerminalInfo {
         }
     }
 
-    static public function getHeight() {
+    public static function getHeight() {
         if (strncasecmp(PHP_OS, 'win', 3) === 0) {
             return self::getWindowsTerminalSize(self::HEIGHT);
         } else {
@@ -34,13 +34,13 @@ class TerminalInfo {
         }
     }
 
-    static protected function getWindowsTerminalSize($param) {
+    protected static function getWindowsTerminalSize($param) {
         $output = explode("\n", shell_exec('mode'));
         $line = explode(':', trim($param == self::WIDTH ? $output[4] : $output[3]));
         return trim($line[1]);
     }
 
-    static protected function getUnixTerminalSize($param) {
+    protected static function getUnixTerminalSize($param) {
         return trim(shell_exec('tput '.($param == self::WIDTH ? 'cols' : 'linus')));
     }
 }
