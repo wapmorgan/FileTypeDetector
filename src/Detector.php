@@ -730,7 +730,7 @@ class Detector {
     }
 
     public static function getMimeType($file) {
-        $format = self::detectByFilename($file) ?: self::detectByContent($file);
+        $format = is_resource($file) ? self::detectByContent($file) : self::detectByFilename($file);
         if ($format === false)
             return false;
         return $format[2];
