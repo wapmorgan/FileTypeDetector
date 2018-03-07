@@ -1,11 +1,10 @@
 <?php
 namespace wapmorgan\test\FileTypeDetector;
-require __DIR__.'/../vendor/autoload.php';
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use wapmorgan\FileTypeDetector\Detector;
 
-class DetectorTest extends PHPUnit_Framework_TestCase {
+class DetectorTest extends TestCase {
     /**
      * @dataProvider filenamesWithTypes()
      */

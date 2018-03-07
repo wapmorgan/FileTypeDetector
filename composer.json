@@ -8,7 +8,12 @@
             "wapmorgan\\FileTypeDetector\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "wapmorgan\\FileTypeDetector\\": "tests/"
+        }
+    },
     "require-dev": {
-        "phpunit/phpunit": "~4.8.35"
+        "phpunit/phpunit": "^4.8"
     }
 }
