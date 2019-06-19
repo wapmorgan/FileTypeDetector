@@ -23,6 +23,7 @@ class Detector {
     const TIFF = 'tiff';
     const PSD = 'psd';
     const ICO = 'ico';
+    const SVG = 'svg';
 
     const ARJ = 'arj';
     const BZIP2 = 'bzip2';
@@ -114,6 +115,7 @@ class Detector {
         'yml' => self::YAML,
         'md' => self::MARKDOWN,
         'mid' => self::MIDI,
+        'svg' => self::SVG,
     );
 
     protected static $extensions = array(
@@ -124,6 +126,7 @@ class Detector {
         'tiff' => self::TIFF,
         'psd' => self::PSD,
         'ico' => self::ICO,
+        'svg' => self::SVG,
         'arj' => self::ARJ,
         'bz2' => self::BZIP2,
         'gz' => self::GZIP,
@@ -203,6 +206,7 @@ class Detector {
             self::TIFF,
             self::PSD,
             self::ICO,
+            self::SVG,
         ),
 
         self::ARCHIVE => array(
@@ -319,6 +323,7 @@ class Detector {
         self::TIFF => 'image/tiff',
         self::PSD => 'image/vnd.adobe.photoshop',
         self::ICO => 'image/x-icon',
+        self::SVG => 'image/svg+xml',
 
         self::ARJ => 'application/arj',
         self::BZIP2 => 'application/x-bzip2',
