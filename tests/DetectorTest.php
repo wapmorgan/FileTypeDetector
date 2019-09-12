@@ -3,6 +3,15 @@ namespace wapmorgan\test\FileTypeDetector;
 
 use PHPUnit\Framework\TestCase;
 use wapmorgan\FileTypeDetector\Detector;
+use function array_map;
+use function chr;
+use function fclose;
+use function fopen;
+use function fwrite;
+use function implode;
+use function is_array;
+use function tempnam;
+use function unlink;
 
 class DetectorTest extends TestCase {
     /**
@@ -43,5 +52,28 @@ class DetectorTest extends TestCase {
      */
     public function testMimetypeGeneration($filename, $expectedType) {
         $this->assertEquals($expectedType[2], Detector::getMimeType($filename));
+    }
+
+    /**
+     * @dataProvider streamsWithTypesFInfo
+     */
+    public function testDetectionByContentInfo($binary, $expectedType)
+    {
+        if (is_array($binary)) $binary = implode(null, array_map(function ($code) { return chr($code); }, $binary));
+        $tmpFile = tempnam('/tmp', 'file');
+        $handle = fopen($tmpFile, 'wb');
+
+        fwrite($handle, $binary);
+        fclose($handle);
+
+        $this->assertEquals($expectedType, Detector::detectByContentInfo($tmpFile));
+        unlink($tmpFile);
+    }
+
+    public function streamsWithTypesFInfo()
+    {
+        return [
+            [[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A], [Detector::IMAGE, Detector::PNG, 'image/png']],
+        ];
     }
 }

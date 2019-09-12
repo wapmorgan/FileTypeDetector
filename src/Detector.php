@@ -1,6 +1,12 @@
 <?php
 namespace wapmorgan\FileTypeDetector;
 
+use finfo;
+use function array_search;
+use function file_get_contents;
+use function in_array;
+use const FILEINFO_MIME_TYPE;
+
 class Detector {
     const AUDIO = 'audio';
     const VIDEO = 'video';
@@ -740,8 +746,30 @@ class Detector {
 
     public static function getMimeType($file) {
         $format = self::detectByFilename($file) ?: self::detectByContent($file);
-        if ($format === false)
+        if ($format === false) {
             return false;
+        }
+
         return $format[2];
+    }
+
+    public static function detectByContentInfo(string $source)
+    {
+        $fInfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $fInfo->buffer(file_get_contents($source));
+
+        if (!in_array($mimeType, self::$mimeTypes)) {
+            return false;
+        }
+
+        $format = [null, array_search($mimeType, self::$mimeTypes), $mimeType];
+        foreach (self::$types as $type => $formats) {
+            if (in_array($format[1], $formats)) {
+                $format[0] = $type;
+                break;
+            }
+        }
+
+        return $format;
     }
 }
