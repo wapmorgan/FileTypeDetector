@@ -24,7 +24,7 @@ class ContentStream {
                     $this->read[] = ord(fgetc($source));
             }
         } else {
-            throw new Exception('Unknown source: '.var_export($source, true).' ('.gettype($source).')');
+            throw new \Exception('Unknown source: '.var_export($source, true).' ('.gettype($source).')');
         }
     }
 
