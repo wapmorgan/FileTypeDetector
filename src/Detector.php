@@ -406,7 +406,10 @@ class Detector {
 
     protected static $signatures = [
         // Images signatures
-        self::JPEG => [[0 => [0xFF, 0xD8, 0xFF, 0xE0]]],
+        self::JPEG => [
+            [0 => [0xFF, 0xD8, 0xFF, 0xE0]],
+            [0 => [0xFF, 0xD8, 0xFF, 0xE1]],
+        ],
         self::BMP => [[0 => [0x42, 0x4D]]],
         self::GIF => [
             [0 => [0x47, 0x49, 0x46, 0x38, 0x37, 0x61]],

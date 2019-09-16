@@ -34,6 +34,8 @@ class DetectorTest extends TestCase {
     public function streamsWithTypes() {
         return array(
             array(array(0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A), array(Detector::IMAGE, Detector::PNG, 'image/png')),
+            array(array(0xFF, 0xD8, 0xFF, 0xE1), array(Detector::IMAGE, Detector::JPEG, 'image/jpeg')),
+            array(array(0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46, 0x49, 0x46, 0x00, 0x01), array(Detector::IMAGE, Detector::JPEG, 'image/jpeg')),
             array(array(0x1F, 0x8B), array(Detector::ARCHIVE, Detector::GZIP, 'application/gzip'))
         );
     }
