@@ -15,6 +15,7 @@ class Detector {
     const SPREADSHEET = 'spreadsheet';
     const FEED = 'feed';
     const SCENARIO = 'scenario';
+    const CERTIFICATE = 'certificate';
 
     const JPEG = 'jpeg';
     const BMP = 'bmp';
@@ -24,6 +25,7 @@ class Detector {
     const PSD = 'psd';
     const ICO = 'ico';
     const SVG = 'svg';
+    const PEM = 'pem';
 
     const ARJ = 'arj';
     const BZIP2 = 'bzip2';
@@ -116,6 +118,7 @@ class Detector {
         'md' => self::MARKDOWN,
         'mid' => self::MIDI,
         'svg' => self::SVG,
+        'pem' => self::PEM,
     );
 
     protected static $extensions = array(
@@ -195,6 +198,7 @@ class Detector {
         'wmv' => self::WMV,
         'webm' => self::WEBM,
         'reg' => self::REG,
+        'pem' => self::PEM,
     );
 
     protected static $types = array(
@@ -313,6 +317,10 @@ class Detector {
         self::SCENARIO => array(
             self::REG,
         ),
+
+        self::CERTIFICATE => array(
+            self::PEM,
+        ),
     );
 
     protected static $mimeTypes = array(
@@ -402,6 +410,8 @@ class Detector {
         self::WEBM => 'video/webm',
 
         self::REG => 'text/plain',
+
+        self::PEM => 'application/x-x509-ca-cert',
     );
 
     protected static $signatures = [
