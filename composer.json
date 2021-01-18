@@ -1,6 +1,6 @@
 {
-    "name": "wapmorgan/file-type-detector",
-    "description": "Detects file type by filename or content and generates correct mimetype.",
+    "name": "brandembassy/file-type-detector",
+    "description": "Detects file type by filename or content and generates correct mimetype. Forked from https://github.com/wapmorgan/FileTypeDetector",
     "keywords": ["mimetype", "files", "formats", "filetype"],
     "license": "MIT",
     "autoload": {
@@ -8,12 +8,15 @@
             "wapmorgan\\FileTypeDetector\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "wapmorgan\\FileTypeDetector\\": "tests/"
-        }
-    },
     "require-dev": {
-        "phpunit/phpunit": "^4.8"
+        "brandembassy/coding-standard": "^8.1",
+        "phpunit/phpunit": "^8.5"
+    },
+    "scripts": {
+        "phpcs": "./vendor/bin/phpcs --standard=BrandEmbassyCodingStandard src",
+        "phpcbf": "./vendor/bin/phpcbf --standard=BrandEmbassyCodingStandard src",
+        "phpstan": "./vendor/bin/phpstan analyze -c phpstan.neon src",
+        "phpunit": "vendor/bin/phpunit src --no-coverage",
+        "phpunit-cc": "vendor/bin/phpunit src"
     }
 }

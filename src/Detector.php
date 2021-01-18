@@ -1,114 +1,112 @@
-<?php
+<?php declare(strict_types = 1);
+
 namespace wapmorgan\FileTypeDetector;
 
-class Detector {
-    const AUDIO = 'audio';
-    const VIDEO = 'video';
-    const IMAGE = 'image';
-    const ARCHIVE = 'archive';
-    const DISK_IMAGE = 'disk_image';
-    const DATABASE = 'database';
-    const DOCUMENT = 'document';
-    const FONT = 'font';
-    const APPLICATION = 'application';
-    const PRESENTATION = 'presentation';
-    const SPREADSHEET = 'spreadsheet';
-    const FEED = 'feed';
-    const SCENARIO = 'scenario';
-    const CERTIFICATE = 'certificate';
+use Exception;
+use function in_array;
+use function pathinfo;
+use function strtolower;
+use const PATHINFO_EXTENSION;
 
-    const JPEG = 'jpeg';
-    const BMP = 'bmp';
-    const GIF = 'gif';
-    const PNG = 'png';
-    const TIFF = 'tiff';
-    const PSD = 'psd';
-    const ICO = 'ico';
-    const SVG = 'svg';
-    const PEM = 'pem';
+class Detector
+{
+    public const AUDIO = 'audio';
+    public const VIDEO = 'video';
+    public const IMAGE = 'image';
+    public const ARCHIVE = 'archive';
+    public const DISK_IMAGE = 'disk_image';
+    public const DATABASE = 'database';
+    public const DOCUMENT = 'document';
+    public const FONT = 'font';
+    public const APPLICATION = 'application';
+    public const PRESENTATION = 'presentation';
+    public const SPREADSHEET = 'spreadsheet';
+    public const FEED = 'feed';
+    public const SCENARIO = 'scenario';
+    public const CERTIFICATE = 'certificate';
+    public const JPEG = 'jpeg';
+    public const BMP = 'bmp';
+    public const GIF = 'gif';
+    public const PNG = 'png';
+    public const TIFF = 'tiff';
+    public const PSD = 'psd';
+    public const ICO = 'ico';
+    public const SVG = 'svg';
+    public const PEM = 'pem';
+    public const ARJ = 'arj';
+    public const BZIP2 = 'bzip2';
+    public const GZIP = 'gzip';
+    public const LZMA2 = 'lzma2';
+    public const _7ZIP = '7z';
+    public const CAB = 'cab';
+    public const JAR = 'jar';
+    public const RAR = 'rar';
+    public const TAR = 'tar';
+    public const ZIP = 'zip';
+    public const ARC = 'arc';
+    public const DAR = 'dar';
+    public const ISO = 'iso';
+    public const NRG = 'nrg';
+    public const VHD = 'vhd';
+    public const ACCDB = 'accdb';
+    public const MDB = 'mdb';
+    public const ODB = 'odb';
+    public const SQLITE = 'sqlite';
+    public const DOC = 'doc';
+    public const DOCX = 'docx';
+    public const HTML = 'html';
+    public const ODT = 'odt';
+    public const PDF = 'pdf';
+    public const RTF = 'rtf';
+    public const TXT = 'txt';
+    public const XML = 'xml';
+    public const MARKDOWN = 'markdown';
+    public const JSON = 'json';
+    public const YAML = 'yaml';
+    public const ATOM = 'atom';
+    public const RSS = 'rss';
+    public const OTF = 'otf';
+    public const TTF = 'ttf';
+    public const APK = 'apk';
+    public const COM = 'com';
+    public const EXE = 'exe';
+    public const XAP = 'xap';
+    public const PPT = 'ppt';
+    public const PPTX = 'pptx';
+    public const ODP = 'odp';
+    public const FLAC = 'flac';
+    public const WMA = 'wma';
+    public const AMR = 'amr';
+    public const MP3 = 'mp3';
+    public const AAC = 'aac';
+    public const M3U = 'm3u';
+    public const OGG = 'ogg';
+    public const WAV = 'wav';
+    public const MIDI = 'midi';
+    public const ODS = 'ods';
+    public const XLS = 'xls';
+    public const XLSX = 'xlsx';
+    public const CSV = 'csv';
+    public const TSV = 'tsv';
+    public const _3GP = '3gp';
+    public const ASF = 'asf';
+    public const AVI = 'avi';
+    public const FLV = 'flv';
+    public const M4V = 'm4v';
+    public const MKV = 'mkv';
+    public const MOV = 'mov';
+    public const MPEG = 'mpeg';
+    public const MP4 = 'mp4';
+    public const SWF = 'swf';
+    public const VOB = 'vob';
+    public const WMV = 'wmv';
+    public const WEBM = 'webm';
+    public const REG = 'reg';
 
-    const ARJ = 'arj';
-    const BZIP2 = 'bzip2';
-    const GZIP = 'gzip';
-    const LZMA2 = 'lzma2';
-    const _7ZIP = '7z';
-    const CAB = 'cab';
-    const JAR = 'jar';
-    const RAR = 'rar';
-    const TAR = 'tar';
-    const ZIP = 'zip';
-    const ARC = 'arc';
-    const DAR = 'dar';
-
-    const ISO = 'iso';
-    const NRG = 'nrg';
-    const VHD = 'vhd';
-
-    const ACCDB = 'accdb';
-    const MDB = 'mdb';
-    const ODB = 'odb';
-    const SQLITE = 'sqlite';
-
-    const DOC = 'doc';
-    const DOCX = 'docx';
-    const HTML = 'html';
-    const ODT = 'odt';
-    const PDF = 'pdf';
-    const RTF = 'rtf';
-    const TXT = 'txt';
-    const XML = 'xml';
-    const MARKDOWN = 'markdown';
-    const JSON = 'json';
-    const YAML = 'yaml';
-
-    const ATOM = 'atom';
-    const RSS = 'rss';
-
-    const OTF = 'otf';
-    const TTF = 'ttf';
-
-    const APK = 'apk';
-    const COM = 'com';
-    const EXE = 'exe';
-    const XAP = 'xap';
-
-    const PPT = 'ppt';
-    const PPTX = 'pptx';
-    const ODP = 'odp';
-
-    const FLAC = 'flac';
-    const WMA = 'wma';
-    const AMR = 'amr';
-    const MP3 = 'mp3';
-    const AAC = 'aac';
-    const M3U = 'm3u';
-    const OGG = 'ogg';
-    const WAV = 'wav';
-    const MIDI = 'midi';
-
-    const ODS = 'ods';
-    const XLS = 'xls';
-    const XLSX = 'xlsx';
-    const CSV = 'csv';
-    const TSV = 'tsv';
-
-    const _3GP = '3gp';
-    const ASF = 'asf';
-    const AVI = 'avi';
-    const FLV = 'flv';
-    const M4V = 'm4v';
-    const MKV = 'mkv';
-    const MOV = 'mov';
-    const MPEG = 'mpeg';
-    const MP4 = 'mp4';
-    const SWF = 'swf';
-    const VOB = 'vob';
-    const WMV = 'wmv';
-    const WEBM = 'webm';
-
-    const REG = 'reg';
-
-    protected static $aliases = array(
+    /**
+     * @var string[]
+     */
+    protected static $aliases = [
         'jpg' => self::JPEG,
         'tif' => self::TIFF,
         'mpg' => self::MPEG,
@@ -119,9 +117,12 @@ class Detector {
         'mid' => self::MIDI,
         'svg' => self::SVG,
         'pem' => self::PEM,
-    );
+    ];
 
-    protected static $extensions = array(
+    /**
+     * @var string[]
+     */
+    protected static $extensions = [
         'jpeg' => self::JPEG,
         'bmp' => self::BMP,
         'gif' => self::GIF,
@@ -199,10 +200,13 @@ class Detector {
         'webm' => self::WEBM,
         'reg' => self::REG,
         'pem' => self::PEM,
-    );
+    ];
 
-    protected static $types = array(
-        self::IMAGE => array(
+    /**
+     * @var string[][]
+     */
+    protected static $types = [
+        self::IMAGE => [
             self::JPEG,
             self::BMP,
             self::GIF,
@@ -211,9 +215,9 @@ class Detector {
             self::PSD,
             self::ICO,
             self::SVG,
-        ),
+        ],
 
-        self::ARCHIVE => array(
+        self::ARCHIVE => [
             self::ARJ,
             self::BZIP2,
             self::GZIP,
@@ -226,22 +230,22 @@ class Detector {
             self::ZIP,
             self::ARC,
             self::DAR,
-        ),
+        ],
 
-        self::DISK_IMAGE => array(
+        self::DISK_IMAGE => [
             self::ISO,
             self::NRG,
             self::VHD,
-        ),
+        ],
 
-        self::DATABASE => array(
+        self::DATABASE => [
             self::ACCDB,
             self::MDB,
             self::ODB,
             self::SQLITE,
-        ),
+        ],
 
-        self::DOCUMENT => array(
+        self::DOCUMENT => [
             self::DOC,
             self::DOCX,
             self::HTML,
@@ -253,32 +257,32 @@ class Detector {
             self::JSON,
             self::YAML,
             self::XML,
-        ),
+        ],
 
-        self::FEED => array(
+        self::FEED => [
             self::ATOM,
             self::RSS,
-        ),
+        ],
 
-        self::FONT => array(
+        self::FONT => [
             self::OTF,
             self::TTF,
-        ),
+        ],
 
-        self::APPLICATION => array(
+        self::APPLICATION => [
             self::APK,
             self::COM,
             self::EXE,
             self::XAP,
-        ),
+        ],
 
-        self::PRESENTATION => array(
+        self::PRESENTATION => [
             self::PPT,
             self::PPTX,
             self::ODP,
-        ),
+        ],
 
-        self::AUDIO => array(
+        self::AUDIO => [
             self::FLAC,
             self::WMA,
             self::AMR,
@@ -288,17 +292,17 @@ class Detector {
             self::OGG,
             self::WAV,
             self::MIDI,
-        ),
+        ],
 
-        self::SPREADSHEET => array(
+        self::SPREADSHEET => [
             self::ODS,
             self::XLS,
             self::XLSX,
             self::CSV,
             self::TSV,
-        ),
+        ],
 
-        self::VIDEO => array(
+        self::VIDEO => [
             self::_3GP,
             self::ASF,
             self::AVI,
@@ -312,18 +316,21 @@ class Detector {
             self::VOB,
             self::WMV,
             self::WEBM,
-        ),
+        ],
 
-        self::SCENARIO => array(
+        self::SCENARIO => [
             self::REG,
-        ),
+        ],
 
-        self::CERTIFICATE => array(
+        self::CERTIFICATE => [
             self::PEM,
-        ),
-    );
+        ],
+    ];
 
-    protected static $mimeTypes = array(
+    /**
+     * @var string[]
+     */
+    protected static $mimeTypes = [
         self::JPEG => 'image/jpeg',
         self::BMP => 'image/bmp',
         self::GIF => 'image/gif',
@@ -412,8 +419,11 @@ class Detector {
         self::REG => 'text/plain',
 
         self::PEM => 'application/x-x509-ca-cert',
-    );
+    ];
 
+    /**
+     * @var mixed[]
+     */
     protected static $signatures = [
         // Images signatures
         self::JPEG => [
@@ -424,7 +434,7 @@ class Detector {
         self::GIF => [
             [0 => [0x47, 0x49, 0x46, 0x38, 0x37, 0x61]],
             // or
-            [0 => [0x47, 0x49, 0x46, 0x38, 0x39, 0x61]]
+            [0 => [0x47, 0x49, 0x46, 0x38, 0x39, 0x61]],
         ],
         self::PNG => [[0 => [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]]],
         self::TIFF => [
@@ -434,7 +444,7 @@ class Detector {
             // or
             [0 => [0x4D, 0x4D, 0x00, 0x2A]],
             // or
-            [0 => [0x4D, 0x4D, 0x00, 0x2B]]
+            [0 => [0x4D, 0x4D, 0x00, 0x2B]],
         ],
         self::PSD => [[0 => [0x38, 0x42, 0x50, 0x53]]],
         self::ICO => [[0 => [0x00, 0x00, 0x01, 0x00]]],
@@ -448,17 +458,17 @@ class Detector {
         self::JAR => [
             [0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x08, 0x00, 0x08, 0x00]],
             // or
-            [0 => [0x5F, 0x27, 0xA8, 0x89]]
+            [0 => [0x5F, 0x27, 0xA8, 0x89]],
         ],
         self::RAR => [
             [0 => [0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x00]],
             // or
-            [0 => [0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x01, 0x00]]
+            [0 => [0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x01, 0x00]],
         ],
         self::TAR => [
             [0 => [0x75, 0x73, 0x74, 0x61, 0x72, 0x00, 0x30, 0x30]],
             // or
-            [0 => [0x75, 0x73, 0x74, 0x61, 0x72, 0x20, 0x20, 0x00]]
+            [0 => [0x75, 0x73, 0x74, 0x61, 0x72, 0x20, 0x20, 0x00]],
         ],
         self::ARC => [[0 => [0x41, 0x72, 0x43, 0x01]]],
         self::DAR => [[0 => [0x00, 0x00, 0x00, 0x7B]]],
@@ -468,13 +478,82 @@ class Detector {
         self::NRG => [
             [-8 => ['N', 'E', 'R', 'O']],
             // or
-            [-12 => ['N', 'E', 'R', '5']]
+            [-12 => ['N', 'E', 'R', '5']],
         ],
 
         // Spreadsheets signatures
-        self::ACCDB => [[0 => [0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E, 0x64, 0x61, 0x72, 0x64, 0x20, 0x41, 0x43, 0x45, 0x20, 0x44, 0x42]]],
-        self::MDB => [[0 => [0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E, 0x64, 0x61, 0x72, 0x64, 0x20, 0x4A, 0x65, 0x74, 0x20, 0x44, 0x42]]],
-        self::SQLITE => [[0 => [0x53, 0x51, 0x4C, 0x69, 0x74, 0x65, 0x20, 0x66, 0x6F, 0x72, 0x6D, 0x61, 0x74, 0x20, 0x33, 0x00]]],
+        self::ACCDB => [
+            [
+                0 => [
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x00,
+                    0x53,
+                    0x74,
+                    0x61,
+                    0x6E,
+                    0x64,
+                    0x61,
+                    0x72,
+                    0x64,
+                    0x20,
+                    0x41,
+                    0x43,
+                    0x45,
+                    0x20,
+                    0x44,
+                    0x42,
+                ],
+            ],
+        ],
+        self::MDB => [
+            [
+                0 => [
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x00,
+                    0x53,
+                    0x74,
+                    0x61,
+                    0x6E,
+                    0x64,
+                    0x61,
+                    0x72,
+                    0x64,
+                    0x20,
+                    0x4A,
+                    0x65,
+                    0x74,
+                    0x20,
+                    0x44,
+                    0x42,
+                ],
+            ],
+        ],
+        self::SQLITE => [
+            [
+                0 => [
+                    0x53,
+                    0x51,
+                    0x4C,
+                    0x69,
+                    0x74,
+                    0x65,
+                    0x20,
+                    0x66,
+                    0x6F,
+                    0x72,
+                    0x6D,
+                    0x61,
+                    0x74,
+                    0x20,
+                    0x33,
+                    0x00,
+                ],
+            ],
+        ],
 
         // Microsoft Office old formats (doc, xls, ppt)
         self::DOC => [
@@ -482,33 +561,33 @@ class Detector {
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
                 512 => [0xEC, 0xA5, 0xC1, 0x00],
-            ]
+            ],
         ],
         self::XLS => [
             [
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
                 512 => [0x09, 0x08, 0x10, 0x00, 0x00, 0x06, 0x05, 0x00],
-            ]
+            ],
         ],
         self::PPT => [
             [
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
-                512 => [0xA0, 0x46, 0x1D, 0xF0]
+                512 => [0xA0, 0x46, 0x1D, 0xF0],
             ],
             // or
             [
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
-                512 => [0x00, 0x6E, 0x1E, 0xF0]
+                512 => [0x00, 0x6E, 0x1E, 0xF0],
             ],
             // or
             [
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
-                512 => [0x0F, 0x00, 0xE8, 0x03]
-            ]
+                512 => [0x0F, 0x00, 0xE8, 0x03],
+            ],
         ],
 
         // Microsoft Office new formats (docx, xlsx, pptx)
@@ -520,9 +599,9 @@ class Detector {
                 -22 => [
                     'bytes' => ['w', 'o', 'r', 'd', '/'],
                     'depth' => 512,
-                    'reverse' => true
-                ]
-            ]
+                    'reverse' => true,
+                ],
+            ],
         ],
         self::XLSX => [
             [
@@ -532,9 +611,9 @@ class Detector {
                 -22 => [
                     'bytes' => ['x', 'l', '/'],
                     'depth' => 512,
-                    'reverse' => true
-                ]
-            ]
+                    'reverse' => true,
+                ],
+            ],
         ],
         self::PPTX => [
             [
@@ -544,9 +623,9 @@ class Detector {
                 -22 => [
                     'bytes' => ['p', 'p', 't', '/'],
                     'depth' => 512,
-                    'reverse' => true
-                ]
-            ]
+                    'reverse' => true,
+                ],
+            ],
         ],
 
         // Open Alliance formats
@@ -554,60 +633,240 @@ class Detector {
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
-                30 => ['m', 'i', 'm', 'e',  't',  'y',  'p',  'e', 'a', 'p', 'p', 'l', 'i', 'c', 'a', 't', 'i', 'o', 'n', '/', 'v', 'n', 'd', '.', 'o', 'a', 's', 'i', 's', '.', 'o', 'p', 'e', 'n', 'd', 'o', 'c', 'u', 'm', 'e', 'n', 't', '.'],
+                30 => [
+                    'm',
+                    'i',
+                    'm',
+                    'e',
+                    't',
+                    'y',
+                    'p',
+                    'e',
+                    'a',
+                    'p',
+                    'p',
+                    'l',
+                    'i',
+                    'c',
+                    'a',
+                    't',
+                    'i',
+                    'o',
+                    'n',
+                    '/',
+                    'v',
+                    'n',
+                    'd',
+                    '.',
+                    'o',
+                    'a',
+                    's',
+                    'i',
+                    's',
+                    '.',
+                    'o',
+                    'p',
+                    'e',
+                    'n',
+                    'd',
+                    'o',
+                    'c',
+                    'u',
+                    'm',
+                    'e',
+                    'n',
+                    't',
+                    '.',
+                ],
                 // and
                 73 => ['t', 'e', 'x', 't'],
-            ]
+            ],
         ],
         self::ODS => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
-                30 => ['m', 'i', 'm', 'e',  't',  'y',  'p',  'e', 'a', 'p', 'p', 'l', 'i', 'c', 'a', 't', 'i', 'o', 'n', '/', 'v', 'n', 'd', '.', 'o', 'a', 's', 'i', 's', '.', 'o', 'p', 'e', 'n', 'd', 'o', 'c', 'u', 'm', 'e', 'n', 't', '.'],
+                30 => [
+                    'm',
+                    'i',
+                    'm',
+                    'e',
+                    't',
+                    'y',
+                    'p',
+                    'e',
+                    'a',
+                    'p',
+                    'p',
+                    'l',
+                    'i',
+                    'c',
+                    'a',
+                    't',
+                    'i',
+                    'o',
+                    'n',
+                    '/',
+                    'v',
+                    'n',
+                    'd',
+                    '.',
+                    'o',
+                    'a',
+                    's',
+                    'i',
+                    's',
+                    '.',
+                    'o',
+                    'p',
+                    'e',
+                    'n',
+                    'd',
+                    'o',
+                    'c',
+                    'u',
+                    'm',
+                    'e',
+                    'n',
+                    't',
+                    '.',
+                ],
                 // and
                 73 => ['s', 'p', 'r', 'e', 'a', 'd', 's', 'h', 'e', 'e', 't'],
-            ]
+            ],
         ],
         self::ODP => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
-                30 => ['m', 'i', 'm', 'e',  't',  'y',  'p',  'e', 'a', 'p', 'p', 'l', 'i', 'c', 'a', 't', 'i', 'o', 'n', '/', 'v', 'n', 'd', '.', 'o', 'a', 's', 'i', 's', '.', 'o', 'p', 'e', 'n', 'd', 'o', 'c', 'u', 'm', 'e', 'n', 't', '.'],
+                30 => [
+                    'm',
+                    'i',
+                    'm',
+                    'e',
+                    't',
+                    'y',
+                    'p',
+                    'e',
+                    'a',
+                    'p',
+                    'p',
+                    'l',
+                    'i',
+                    'c',
+                    'a',
+                    't',
+                    'i',
+                    'o',
+                    'n',
+                    '/',
+                    'v',
+                    'n',
+                    'd',
+                    '.',
+                    'o',
+                    'a',
+                    's',
+                    'i',
+                    's',
+                    '.',
+                    'o',
+                    'p',
+                    'e',
+                    'n',
+                    'd',
+                    'o',
+                    'c',
+                    'u',
+                    'm',
+                    'e',
+                    'n',
+                    't',
+                    '.',
+                ],
                 // and
                 73 => ['p', 'r', 'e', 's', 'e', 'n', 't', 'a', 't', 'i', 'o', 'n'],
-            ]
+            ],
         ],
         self::ODB => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
-                30 => ['m', 'i', 'm', 'e',  't',  'y',  'p',  'e', 'a', 'p', 'p', 'l', 'i', 'c', 'a', 't', 'i', 'o', 'n', '/', 'v', 'n', 'd', '.', 'o', 'a', 's', 'i', 's', '.', 'o', 'p', 'e', 'n', 'd', 'o', 'c', 'u', 'm', 'e', 'n', 't', '.'],
+                30 => [
+                    'm',
+                    'i',
+                    'm',
+                    'e',
+                    't',
+                    'y',
+                    'p',
+                    'e',
+                    'a',
+                    'p',
+                    'p',
+                    'l',
+                    'i',
+                    'c',
+                    'a',
+                    't',
+                    'i',
+                    'o',
+                    'n',
+                    '/',
+                    'v',
+                    'n',
+                    'd',
+                    '.',
+                    'o',
+                    'a',
+                    's',
+                    'i',
+                    's',
+                    '.',
+                    'o',
+                    'p',
+                    'e',
+                    'n',
+                    'd',
+                    'o',
+                    'c',
+                    'u',
+                    'm',
+                    'e',
+                    'n',
+                    't',
+                    '.',
+                ],
                 // and
                 73 => ['b', 'a', 's', 'e'],
-            ]
+            ],
         ],
 
         // Text formats
         self::HTML => [[0 => '<html']],
         self::PDF => [[0 => [0x25, 0x50, 0x44, 0x46]]],
         self::RTF => [[0 => [0x7B, 0x5C, 0x72, 0x74, 0x66, 0x31]]],
-        self::ATOM => [[
-            0 => '<?xml',
-            // and
-            // search for substring "Atom" in the second xml tag
-            10 => [
-                'bytes' => ['A', 't', 'o', 'm'],
-                'depth' => 100
-            ]
-        ]],
-        self::RSS => [[
-            0 => '<?xml',
-            // search for substring "<rss" at the start of file
-            10 => [
-                'bytes' => ['<', 'r', 's', 's'],
-                'depth' => 100
-            ]
-        ]],
+        self::ATOM => [
+            [
+                0 => '<?xml',
+                // and
+                // search for substring "Atom" in the second xml tag
+                10 => [
+                    'bytes' => ['A', 't', 'o', 'm'],
+                    'depth' => 100,
+                ],
+            ],
+        ],
+        self::RSS => [
+            [
+                0 => '<?xml',
+                // search for substring "<rss" at the start of file
+                10 => [
+                    'bytes' => ['<', 'r', 's', 's'],
+                    'depth' => 100,
+                ],
+            ],
+        ],
         // make sure xml at the end of Text's section
         self::XML => [[0 => '<?xml']],
 
@@ -616,11 +875,13 @@ class Detector {
         self::TTF => [[0 => [0x00, 0x01, 0x00, 0x00, 0x00]]],
 
         // Executables formats
-        self::APK => [[
-            0 => [0x50, 0x4B, 0x03, 0x04],
-            // and
-            30 => ['A', 'n', 'd', 'r', 'o', 'i', 'd', 'M', 'a', 'n', 'i', 'f', 'e', 's', 't', '.', 'x', 'm', 'l'],
-        ]],
+        self::APK => [
+            [
+                0 => [0x50, 0x4B, 0x03, 0x04],
+                // and
+                30 => ['A', 'n', 'd', 'r', 'o', 'i', 'd', 'M', 'a', 'n', 'i', 'f', 'e', 's', 't', '.', 'x', 'm', 'l'],
+            ],
+        ],
         self::EXE => [[0 => [0x4D, 0x5A]]],
 
         // Audios formats
@@ -630,7 +891,7 @@ class Detector {
         self::AAC => [
             [0 => [0xFF, 0xF1]],
             // or
-            [0 => [0xFF, 0xF9]]
+            [0 => [0xFF, 0xF9]],
         ],
         self::M3U => [[0 => ['#', 'E', 'X', 'T', 'M', '3', 'U']]],
         self::OGG => [
@@ -641,18 +902,41 @@ class Detector {
         self::MIDI => [[0 => [0x4D, 0x54, 0x68, 0x64]]],
 
         self::_3GP => [[0 => [0x00, 0x00, 0x00, 0x14, 0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70]]],
-        self::AVI => [[
-            0 => [0x52, 0x49, 0x46, 0x46],
-            // and
-            8 => [0x41, 0x56, 0x49, 0x20, 0x4C, 0x49, 0x53, 0x54]
-        ]],
+        self::AVI => [
+            [
+                0 => [0x52, 0x49, 0x46, 0x46],
+                // and
+                8 => [0x41, 0x56, 0x49, 0x20, 0x4C, 0x49, 0x53, 0x54],
+            ],
+        ],
         self::FLV => [[0 => [0x46, 0x4C, 0x56, 0x01]]],
         self::M4V => [[0 => [0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x6D, 0x70, 0x34, 0x32]]],
-        self::MKV => [[0 => [0x1A, 0x45, 0xDF, 0xA3, 0x93, 0x42, 0x82, 0x88, 0x6D, 0x61, 0x74, 0x72, 0x6F, 0x73, 0x6B, 0x61]]],
+        self::MKV => [
+            [
+                0 => [
+                    0x1A,
+                    0x45,
+                    0xDF,
+                    0xA3,
+                    0x93,
+                    0x42,
+                    0x82,
+                    0x88,
+                    0x6D,
+                    0x61,
+                    0x74,
+                    0x72,
+                    0x6F,
+                    0x73,
+                    0x6B,
+                    0x61,
+                ],
+            ],
+        ],
         self::MOV => [
             [4 => [0x66, 0x74, 0x79, 0x70, 0x71, 0x74, 0x20, 0x20]],
             // or
-            [4 => [0x6D, 0x6F, 0x6F, 0x76]]
+            [4 => [0x6D, 0x6F, 0x6F, 0x76]],
         ],
         self::MP4 => [
             [4 => [0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6F, 0x6D]],
@@ -661,19 +945,23 @@ class Detector {
             // or
             [4 => [0x66, 0x74, 0x79, 0x70, 0x4D, 0x53, 0x4E, 0x56]],
             // or
-            [4 => [0x66, 0x74, 0x79, 0x70, 0x4D, 0x34, 0x41, 0x20]]
+            [4 => [0x66, 0x74, 0x79, 0x70, 0x4D, 0x34, 0x41, 0x20]],
         ],
-        self::MPEG => [[
-            0 => [0x00, 0x00, 0x01],
-            // and
-            -4 => [0x00, 0x00, 0x01, 0xB7]
-        ]],
+        self::MPEG => [
+            [
+                0 => [0x00, 0x00, 0x01],
+                // and
+                -4 => [0x00, 0x00, 0x01, 0xB7],
+            ],
+        ],
         self::SWF => [[0 => [0x5A, 0x57, 0x53]]],
-        self::VOB => [[
-            0 => [0x00, 0x00, 0x01, 0xBA],
-            // and
-            -4 => [0x00, 0x00, 0x01, 0xB9]
-        ]],
+        self::VOB => [
+            [
+                0 => [0x00, 0x00, 0x01, 0xBA],
+                // and
+                -4 => [0x00, 0x00, 0x01, 0xB9],
+            ],
+        ],
         self::WEBM => [[0 => [0x1A, 0x45, 0xDF, 0xA3]]],
 
         // zip is a container for a lot of formats
@@ -682,35 +970,72 @@ class Detector {
             // or
             [0 => [0x50, 0x4B, 0x05, 0x06]],
             // or
-            [0 => [0x50, 0x4B, 0x07, 0x08]]
+            [0 => [0x50, 0x4B, 0x07, 0x08]],
         ],
 
         // Scneraios formats
         self::REG => [
             [0 => [0xFF, 0xFE]],
             // or
-            [0 => [0x52, 0x45, 0x47, 0x45, 0x44, 0x49, 0x54]]
-        ]
+            [0 => [0x52, 0x45, 0x47, 0x45, 0x44, 0x49, 0x54]],
+        ],
     ];
 
-    public static function detectByFilename($filename) {
+
+    /**
+     * @return false|string
+     */
+    public static function getMimeType(string $file)
+    {
+        $format = self::detectByFilename($file);
+
+        if ($format === false) {
+            $format = self::detectByContent($file);
+        }
+
+        if ($format === false) {
+            return false;
+        }
+
+        return $format[2];
+    }
+
+
+    /**
+     * @return mixed[]|false
+     */
+    public static function detectByFilename(string $filename)
+    {
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        if (isset(self::$aliases[$ext])) $ext = self::$aliases[$ext];
+        if (isset(self::$aliases[$ext])) {
+            $ext = self::$aliases[$ext];
+        }
         if (isset(self::$extensions[$ext])) {
-            $format = array(null, self::$extensions[$ext]);
+            $format = [null, self::$extensions[$ext]];
             foreach (self::$types as $type => $formats) {
-                if (in_array($format[1], $formats)) {
+                if (in_array($format[1], $formats, true)) {
                     $format[0] = $type;
                     break;
                 }
             }
-            $format[2] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
+            $format[2] = self::$mimeTypes[$format[1]] ?? false;
+
             return $format;
         }
+
         return false;
     }
 
-    public static function detectByContent($source) {
+
+    /**
+     * @param resource|string $source
+     *
+     * @return mixed|false
+     *
+     * @throws Exception
+     */
+    public static function detectByContent($source)
+    {
         $stream = new ContentStream($source);
         foreach (self::$signatures as $format => $signatures) {
             foreach ($signatures as $or_signature) {
@@ -718,43 +1043,36 @@ class Detector {
                 foreach ($or_signature as $offset => $and_signature) {
                     // search for substring in range
                     if (isset($and_signature['bytes'])) {
-                        if ($stream->find($offset, $and_signature['bytes'],
-                            isset($and_signature['depth']) ? $and_signature['depth'] : 512,
-                            isset($and_signature['reverse']) ? $and_signature['reverse'] : false
-                            ) === false) {
+                        if ($stream->find(
+                            $offset,
+                            $and_signature['bytes'],
+                            $and_signature['depth'] ?? 512,
+                            $and_signature['reverse'] ?? false
+                        ) === false) {
                             $passed = false;
                             break;
                         }
-                    }
-                    // exact match
-                    else {
-                        if ($stream->checkBytes($offset, $and_signature) === false) {
-                            $passed = false;
-                            break;
-                        }
+                    } else if ($stream->checkBytes($offset, $and_signature) === false) { // exact match
+                        $passed = false;
+                        break;
                     }
                 }
                 // if earlier we did not break inner loop, then all signatures matched
                 if ($passed) {
-                    $format = array(null, $format);
+                    $format = [null, $format];
                     foreach (self::$types as $type => $formats) {
-                        if (in_array($format[1], $formats)) {
+                        if (in_array($format[1], $formats, true)) {
                             $format[0] = $type;
                             break;
                         }
                     }
-                    $format[2] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
+                    $format[2] = self::$mimeTypes[$format[1]] ?? false;
+
                     return $format;
                 }
             }
         }
-        return false;
-    }
 
-    public static function getMimeType($file) {
-        $format = self::detectByFilename($file) ?: self::detectByContent($file);
-        if ($format === false)
-            return false;
-        return $format[2];
+        return false;
     }
 }

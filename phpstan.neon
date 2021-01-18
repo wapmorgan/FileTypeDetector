@@ -1,0 +1,6 @@
+includes:
+    - vendor/brandembassy/coding-standard/default-phpstan.neon
+
+parameters:
+    ignoreErrors:
+        - "#^Cannot access offset '(mode|size)' on array#"

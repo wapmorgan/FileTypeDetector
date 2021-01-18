@@ -1,85 +1,161 @@
-<?php
+<?php declare(strict_types = 1);
+
 namespace wapmorgan\FileTypeDetector;
 
-use \Exception;
+use Exception;
+use function abs;
+use function assert;
+use function fclose;
+use function feof;
+use function fgetc;
+use function file_exists;
+use function fopen;
+use function fseek;
+use function fstat;
+use function get_resource_type;
+use function gettype;
+use function is_array;
+use function is_resource;
+use function is_string;
+use function ord;
+use function stream_get_meta_data;
+use function strlen;
+use function var_export;
+use const SEEK_SET;
 
-class ContentStream {
+class ContentStream
+{
+    /**
+     * @var bool
+     */
     protected $openedOutside = false;
-    protected $fp;
-    protected $read = array();
 
-    public function __construct($source) {
+    /**
+     * @var resource
+     */
+    protected $filePointer;
+
+    /**
+     * @var mixed[]
+     */
+    protected $read = [];
+
+
+    /**
+     * @param resource|string $source
+     *
+     * @throws Exception
+     */
+    public function __construct($source)
+    {
         // open regular file
         if (is_string($source) && file_exists($source)) {
-            $this->fp = fopen($source, 'rb');
-        }
-        // open stream
-        else if (is_resource($source) && get_resource_type($source) == 'stream') {
-            $this->fp = $source;
+            $filePointer = fopen($source, 'rb');
+        } else if (is_resource($source) && get_resource_type($source) === 'stream') { // open stream
+            $filePointer = $source;
             $this->openedOutside = true;
             // cache all data if stream is not seekable
             $meta = stream_get_meta_data($source);
             if (!$meta['seekable']) {
-                while (!feof($source))
-                    $this->read[] = ord(fgetc($source));
+                while (!feof($source)) {
+                    $character = fgetc($source);
+                    assert($character !== false);
+
+                    $this->read[] = ord($character);
+                }
             }
         } else {
-            throw new Exception('Unknown source: '.var_export($source, true).' ('.gettype($source).')');
+            throw new Exception('Unknown source: ' . var_export($source, true) . ' (' . gettype($source) . ')');
         }
+
+        assert(is_resource($filePointer));
+        $this->filePointer = $filePointer;
     }
 
-    public function checkBytes($offset, $ethalon) {
+
+    /**
+     * @param string|int[] $ethalon
+     */
+    public function checkBytes(int $offset, $ethalon): bool
+    {
         if ($offset < 0) {
-            $stat = fstat($this->fp);
+            $stat = fstat($this->filePointer);
             $offset = $stat['size'] + $offset;
         }
-        if (!is_array($ethalon)) $ethalon = $this->convertToBytes($ethalon);
-        foreach ($ethalon as $i => $byte) {
-            if (!isset($this->read[$offset+$i])) {
-                fseek($this->fp, $offset+$i, SEEK_SET);
-                $this->read[$offset+$i] = ord(fgetc($this->fp));
-            }
-            if ($this->read[$offset+$i] !== $byte)
-                return false;
+        if (!is_array($ethalon)) {
+            $ethalon = $this->convertToBytes($ethalon);
         }
+        foreach ($ethalon as $i => $byte) {
+            if (!isset($this->read[$offset + $i])) {
+                fseek($this->filePointer, $offset + $i, SEEK_SET);
+                $character = fgetc($this->filePointer);
+                assert($character !== false);
+                $this->read[$offset + $i] = ord($character);
+            }
+            if ($this->read[$offset + $i] !== $byte) {
+                return false;
+            }
+        }
+
         return true;
     }
 
-    public function convertToBytes($string) {
-        $bytes = array();
+
+    /**
+     * @return int[]
+     */
+    public function convertToBytes(string $string): array
+    {
+        $bytes = [];
         $l = strlen($string);
-        for ($i = 0; $i < $l; $i++)
+        for ($i = 0; $i < $l; $i++) {
             $bytes[$i] = ord($string[$i]);
+        }
+
         return $bytes;
     }
 
-    public function find($offset, array $bytes, $maxDepth = 512, $reverse = false) {
+
+    /**
+     * @param mixed[] $bytes
+     */
+    public function find(int $offset, array $bytes, int $maxDepth = 512, bool $reverse = false): bool
+    {
         if ($offset < 0) {
-            $stat = fstat($this->fp);
+            $stat = fstat($this->filePointer);
             $offset = $stat['size'] + $offset;
         }
         $i = 0;
         while (abs($i) <= $maxDepth) {
             $i = $reverse ? $i - 1 : $i + 1;
 
-            if (!isset($this->read[$offset+$i])) {
-                fseek($this->fp, $offset+$i, SEEK_SET);
-                $this->read[$offset+$i] = ord(fgetc($this->fp));
+            if (!isset($this->read[$offset + $i])) {
+                fseek($this->filePointer, $offset + $i, SEEK_SET);
+                $character = fgetc($this->filePointer);
+                assert($character !== false);
+                $this->read[$offset + $i] = ord($character);
             }
 
             foreach ($bytes as $j => $byte) {
-                if (is_string($byte)) $byte = ord($byte);
-                if ($this->read[$offset+$i+$j] != $byte)
-                    continue(2);
-
+                if (is_string($byte)) {
+                    $byte = ord($byte);
+                }
+                if ($this->read[$offset + $i + $j] !== $byte) {
+                    continue 2;
+                }
             }
+
             return true;
         }
+
         return false;
     }
 
-    public function __destruct() {
-        if (!$this->openedOutside)
-            fclose($this->fp);
+
+    public function __destruct()
+    {
+        if (!$this->openedOutside) {
+            fclose($this->filePointer);
+        }
     }
 }
