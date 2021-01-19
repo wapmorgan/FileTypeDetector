@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace wapmorgan\FileTypeDetector;
+namespace BrandEmbassy\FileTypeDetector;
 
 use Exception;
 use function abs;
@@ -86,12 +86,10 @@ class ContentStream
             $ethalon = $this->convertToBytes($ethalon);
         }
         foreach ($ethalon as $i => $byte) {
-            if (!isset($this->read[$offset + $i])) {
-                fseek($this->filePointer, $offset + $i, SEEK_SET);
-                $character = fgetc($this->filePointer);
-                assert($character !== false);
-                $this->read[$offset + $i] = ord($character);
+            if (!$this->readOffset($offset + $i)) {
+                return false;
             }
+
             if ($this->read[$offset + $i] !== $byte) {
                 return false;
             }
@@ -129,11 +127,8 @@ class ContentStream
         while (abs($i) <= $maxDepth) {
             $i = $reverse ? $i - 1 : $i + 1;
 
-            if (!isset($this->read[$offset + $i])) {
-                fseek($this->filePointer, $offset + $i, SEEK_SET);
-                $character = fgetc($this->filePointer);
-                assert($character !== false);
-                $this->read[$offset + $i] = ord($character);
+            if (!$this->readOffset($offset + $i)) {
+                return false;
             }
 
             foreach ($bytes as $j => $byte) {
@@ -149,6 +144,23 @@ class ContentStream
         }
 
         return false;
+    }
+
+
+    private function readOffset(int $offset): bool
+    {
+        if (!isset($this->read[$offset])) {
+            fseek($this->filePointer, $offset, SEEK_SET);
+            $character = fgetc($this->filePointer);
+
+            if ($character === false) {
+                return false;
+            }
+
+            $this->read[$offset] = ord($character);
+        }
+
+        return true;
     }
 
 

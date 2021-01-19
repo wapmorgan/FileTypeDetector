@@ -1,443 +1,36 @@
 <?php declare(strict_types = 1);
 
-namespace wapmorgan\FileTypeDetector;
+namespace BrandEmbassy\FileTypeDetector;
 
 use Exception;
-use function in_array;
+use InvalidArgumentException;
+use function assert;
+use function fopen;
+use function fwrite;
 use function pathinfo;
+use function rewind;
 use function strtolower;
 use const PATHINFO_EXTENSION;
 
 class Detector
 {
-    public const AUDIO = 'audio';
-    public const VIDEO = 'video';
-    public const IMAGE = 'image';
-    public const ARCHIVE = 'archive';
-    public const DISK_IMAGE = 'disk_image';
-    public const DATABASE = 'database';
-    public const DOCUMENT = 'document';
-    public const FONT = 'font';
-    public const APPLICATION = 'application';
-    public const PRESENTATION = 'presentation';
-    public const SPREADSHEET = 'spreadsheet';
-    public const FEED = 'feed';
-    public const SCENARIO = 'scenario';
-    public const CERTIFICATE = 'certificate';
-    public const JPEG = 'jpeg';
-    public const BMP = 'bmp';
-    public const GIF = 'gif';
-    public const PNG = 'png';
-    public const TIFF = 'tiff';
-    public const PSD = 'psd';
-    public const ICO = 'ico';
-    public const SVG = 'svg';
-    public const PEM = 'pem';
-    public const ARJ = 'arj';
-    public const BZIP2 = 'bzip2';
-    public const GZIP = 'gzip';
-    public const LZMA2 = 'lzma2';
-    public const _7ZIP = '7z';
-    public const CAB = 'cab';
-    public const JAR = 'jar';
-    public const RAR = 'rar';
-    public const TAR = 'tar';
-    public const ZIP = 'zip';
-    public const ARC = 'arc';
-    public const DAR = 'dar';
-    public const ISO = 'iso';
-    public const NRG = 'nrg';
-    public const VHD = 'vhd';
-    public const ACCDB = 'accdb';
-    public const MDB = 'mdb';
-    public const ODB = 'odb';
-    public const SQLITE = 'sqlite';
-    public const DOC = 'doc';
-    public const DOCX = 'docx';
-    public const HTML = 'html';
-    public const ODT = 'odt';
-    public const PDF = 'pdf';
-    public const RTF = 'rtf';
-    public const TXT = 'txt';
-    public const XML = 'xml';
-    public const MARKDOWN = 'markdown';
-    public const JSON = 'json';
-    public const YAML = 'yaml';
-    public const ATOM = 'atom';
-    public const RSS = 'rss';
-    public const OTF = 'otf';
-    public const TTF = 'ttf';
-    public const APK = 'apk';
-    public const COM = 'com';
-    public const EXE = 'exe';
-    public const XAP = 'xap';
-    public const PPT = 'ppt';
-    public const PPTX = 'pptx';
-    public const ODP = 'odp';
-    public const FLAC = 'flac';
-    public const WMA = 'wma';
-    public const AMR = 'amr';
-    public const MP3 = 'mp3';
-    public const AAC = 'aac';
-    public const M3U = 'm3u';
-    public const OGG = 'ogg';
-    public const WAV = 'wav';
-    public const MIDI = 'midi';
-    public const ODS = 'ods';
-    public const XLS = 'xls';
-    public const XLSX = 'xlsx';
-    public const CSV = 'csv';
-    public const TSV = 'tsv';
-    public const _3GP = '3gp';
-    public const ASF = 'asf';
-    public const AVI = 'avi';
-    public const FLV = 'flv';
-    public const M4V = 'm4v';
-    public const MKV = 'mkv';
-    public const MOV = 'mov';
-    public const MPEG = 'mpeg';
-    public const MP4 = 'mp4';
-    public const SWF = 'swf';
-    public const VOB = 'vob';
-    public const WMV = 'wmv';
-    public const WEBM = 'webm';
-    public const REG = 'reg';
-
-    /**
-     * @var string[]
-     */
-    protected static $aliases = [
-        'jpg' => self::JPEG,
-        'tif' => self::TIFF,
-        'mpg' => self::MPEG,
-        'mpe' => self::MPEG,
-        'm4a' => self::AAC,
-        'yml' => self::YAML,
-        'md' => self::MARKDOWN,
-        'mid' => self::MIDI,
-        'svg' => self::SVG,
-        'pem' => self::PEM,
-    ];
-
-    /**
-     * @var string[]
-     */
-    protected static $extensions = [
-        'jpeg' => self::JPEG,
-        'bmp' => self::BMP,
-        'gif' => self::GIF,
-        'png' => self::PNG,
-        'tiff' => self::TIFF,
-        'psd' => self::PSD,
-        'ico' => self::ICO,
-        'svg' => self::SVG,
-        'arj' => self::ARJ,
-        'bz2' => self::BZIP2,
-        'gz' => self::GZIP,
-        'xz' => self::LZMA2,
-        '7z' => self::_7ZIP,
-        'cab' => self::CAB,
-        'jar' => self::JAR,
-        'rar' => self::RAR,
-        'tar' => self::TAR,
-        'zip' => self::ZIP,
-        'arc' => self::ARC,
-        'dar' => self::DAR,
-        'iso' => self::ISO,
-        'nrg' => self::NRG,
-        'vhd' => self::VHD,
-        'accdb' => self::ACCDB,
-        'mdb' => self::MDB,
-        'odb' => self::ODB,
-        'doc' => self::DOC,
-        'docx' => self::DOCX,
-        'html' => self::HTML,
-        'odt' => self::ODT,
-        'pdf' => self::PDF,
-        'rtf' => self::RTF,
-        'txt' => self::TXT,
-        'md' => self::MARKDOWN,
-        'json' => self::JSON,
-        'yaml' => self::YAML,
-        'xml' => self::XML,
-        'atom' => self::ATOM,
-        'rss' => self::RSS,
-        'otf' => self::OTF,
-        'ttf' => self::TTF,
-        'apk' => self::APK,
-        'com' => self::COM,
-        'exe' => self::EXE,
-        'xap' => self::XAP,
-        'ppt' => self::PPT,
-        'pptx' => self::PPTX,
-        'odp' => self::ODP,
-        'flac' => self::FLAC,
-        'wma' => self::WMA,
-        'amr' => self::AMR,
-        'mp3' => self::MP3,
-        'aac' => self::AAC,
-        'm3u' => self::M3U,
-        'ogg' => self::OGG,
-        'wav' => self::WAV,
-        'midi' => self::MIDI,
-        'ods' => self::ODS,
-        'xls' => self::XLS,
-        'xlsx' => self::XLSX,
-        'csv' => self::CSV,
-        'tsv' => self::TSV,
-        '3gp' => self::_3GP,
-        'asf' => self::ASF,
-        'avi' => self::AVI,
-        'flv' => self::FLV,
-        'm4v' => self::M4V,
-        'mkv' => self::MKV,
-        'mov' => self::MOV,
-        'mpeg' => self::MPEG,
-        'mp4' => self::MP4,
-        'swf' => self::SWF,
-        'vob' => self::VOB,
-        'wmv' => self::WMV,
-        'webm' => self::WEBM,
-        'reg' => self::REG,
-        'pem' => self::PEM,
-    ];
-
-    /**
-     * @var string[][]
-     */
-    protected static $types = [
-        self::IMAGE => [
-            self::JPEG,
-            self::BMP,
-            self::GIF,
-            self::PNG,
-            self::TIFF,
-            self::PSD,
-            self::ICO,
-            self::SVG,
-        ],
-
-        self::ARCHIVE => [
-            self::ARJ,
-            self::BZIP2,
-            self::GZIP,
-            self::LZMA2,
-            self::_7ZIP,
-            self::CAB,
-            self::JAR,
-            self::RAR,
-            self::TAR,
-            self::ZIP,
-            self::ARC,
-            self::DAR,
-        ],
-
-        self::DISK_IMAGE => [
-            self::ISO,
-            self::NRG,
-            self::VHD,
-        ],
-
-        self::DATABASE => [
-            self::ACCDB,
-            self::MDB,
-            self::ODB,
-            self::SQLITE,
-        ],
-
-        self::DOCUMENT => [
-            self::DOC,
-            self::DOCX,
-            self::HTML,
-            self::ODT,
-            self::PDF,
-            self::RTF,
-            self::TXT,
-            self::MARKDOWN,
-            self::JSON,
-            self::YAML,
-            self::XML,
-        ],
-
-        self::FEED => [
-            self::ATOM,
-            self::RSS,
-        ],
-
-        self::FONT => [
-            self::OTF,
-            self::TTF,
-        ],
-
-        self::APPLICATION => [
-            self::APK,
-            self::COM,
-            self::EXE,
-            self::XAP,
-        ],
-
-        self::PRESENTATION => [
-            self::PPT,
-            self::PPTX,
-            self::ODP,
-        ],
-
-        self::AUDIO => [
-            self::FLAC,
-            self::WMA,
-            self::AMR,
-            self::MP3,
-            self::AAC,
-            self::M3U,
-            self::OGG,
-            self::WAV,
-            self::MIDI,
-        ],
-
-        self::SPREADSHEET => [
-            self::ODS,
-            self::XLS,
-            self::XLSX,
-            self::CSV,
-            self::TSV,
-        ],
-
-        self::VIDEO => [
-            self::_3GP,
-            self::ASF,
-            self::AVI,
-            self::FLV,
-            self::M4V,
-            self::MKV,
-            self::MOV,
-            self::MPEG,
-            self::MP4,
-            self::SWF,
-            self::VOB,
-            self::WMV,
-            self::WEBM,
-        ],
-
-        self::SCENARIO => [
-            self::REG,
-        ],
-
-        self::CERTIFICATE => [
-            self::PEM,
-        ],
-    ];
-
-    /**
-     * @var string[]
-     */
-    protected static $mimeTypes = [
-        self::JPEG => 'image/jpeg',
-        self::BMP => 'image/bmp',
-        self::GIF => 'image/gif',
-        self::PNG => 'image/png',
-        self::TIFF => 'image/tiff',
-        self::PSD => 'image/vnd.adobe.photoshop',
-        self::ICO => 'image/x-icon',
-        self::SVG => 'image/svg+xml',
-
-        self::ARJ => 'application/arj',
-        self::BZIP2 => 'application/x-bzip2',
-        self::GZIP => 'application/gzip',
-        self::_7ZIP => 'application/x-7z-compressed',
-        self::LZMA2 => 'application/x-xz',
-        self::CAB => 'application/vnd.ms-cab-compressed',
-        self::JAR => 'application/java-archive',
-        self::RAR => 'application/x-rar-compressed',
-        self::TAR => 'application/x-tar',
-        self::ZIP => 'application/zip',
-        self::ARC => 'application/x-freearc',
-        self::DAR => 'application/x-dar',
-
-        self::ISO => 'application/x-iso9660-image',
-
-        self::ACCDB => 'application/x-msaccess',
-        self::MDB => 'application/x-msaccess',
-        self::ODB => 'application/vnd.oasis.opendocument.database',
-        self::SQLITE => 'application/x-sqlite3',
-
-        self::DOC => 'application/msword',
-        self::DOCX => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        self::HTML => 'text/html',
-        self::ODT => 'application/vnd.oasis.opendocument.text',
-        self::PDF => 'application/pdf',
-        self::RTF => 'application/rtf',
-        self::TXT => 'text/plain',
-        self::MARKDOWN => 'text/markdown',
-        self::YAML => 'text/yaml',
-        self::JSON => 'application/json',
-        self::XML => 'application/xml',
-
-        self::ATOM => 'application/atom+xml',
-        self::RSS => 'application/rss+xml',
-
-        self::OTF => 'application/x-font-otf',
-        self::TTF => 'application/x-font-ttf',
-
-        self::APK => 'application/vnd.android.package-archive',
-        self::COM => 'application/x-msdownload',
-        self::EXE => 'application/x-msdownload',
-        self::XAP => 'application/x-silverlight-app',
-
-        self::PPT => 'application/vnd.ms-powerpoint',
-        self::PPTX => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        self::ODP => 'application/vnd.oasis.opendocument.presentation',
-
-        self::FLAC => 'audio/x-flac',
-        self::WMA => 'audio/x-ms-wma',
-        self::AMR => 'audio/amr',
-        self::MP3 => 'audio/mpeg',
-        self::AAC => 'audio/x-aac',
-        self::M3U => 'audio/x-mpegurl',
-        self::OGG => 'audio/ogg',
-        self::WAV => 'audio/x-wav',
-        self::MIDI => 'audio/midi',
-
-        self::ODS => 'application/vnd.oasis.opendocument.spreadsheet',
-        self::XLS => 'application/vnd.ms-excel',
-        self::XLSX => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        self::CSV => 'text/csv',
-        self::TSV => 'text/tab-separated-values',
-
-        self::_3GP => 'video/3gpp',
-        self::AVI => 'video/x-msvideo',
-        self::FLV => 'video/x-flv',
-        self::M4V => 'video/x-m4v',
-        self::MKV => 'video/x-matroska',
-        self::MOV => 'video/quicktime',
-        self::MPEG => 'video/mpeg',
-        self::MP4 => 'video/mp4',
-        self::SWF => 'application/x-shockwave-flash',
-        self::VOB => 'video/x-ms-vob',
-        self::WMV => 'video/x-ms-wmv',
-        self::WEBM => 'video/webm',
-
-        self::REG => 'text/plain',
-
-        self::PEM => 'application/x-x509-ca-cert',
-    ];
-
     /**
      * @var mixed[]
      */
-    protected static $signatures = [
+    private static $signatures = [
         // Images signatures
-        self::JPEG => [
+        Extension::JPEG => [
             [0 => [0xFF, 0xD8, 0xFF, 0xE0]],
             [0 => [0xFF, 0xD8, 0xFF, 0xE1]],
         ],
-        self::BMP => [[0 => [0x42, 0x4D]]],
-        self::GIF => [
+        Extension::BMP => [[0 => [0x42, 0x4D]]],
+        Extension::GIF => [
             [0 => [0x47, 0x49, 0x46, 0x38, 0x37, 0x61]],
             // or
             [0 => [0x47, 0x49, 0x46, 0x38, 0x39, 0x61]],
         ],
-        self::PNG => [[0 => [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]]],
-        self::TIFF => [
+        Extension::PNG => [[0 => [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]]],
+        Extension::TIFF => [
             [0 => [0x49, 0x20, 0x49]],
             // or
             [0 => [0x49, 0x49, 0x2A, 0x00]],
@@ -446,43 +39,43 @@ class Detector
             // or
             [0 => [0x4D, 0x4D, 0x00, 0x2B]],
         ],
-        self::PSD => [[0 => [0x38, 0x42, 0x50, 0x53]]],
-        self::ICO => [[0 => [0x00, 0x00, 0x01, 0x00]]],
+        Extension::PSD => [[0 => [0x38, 0x42, 0x50, 0x53]]],
+        Extension::ICO => [[0 => [0x00, 0x00, 0x01, 0x00]]],
 
         // Archives signatures
-        self::ARJ => [[0 => [0x60, 0xEA]]],
-        self::BZIP2 => [[0 => [0x42, 0x5A, 0x68]]],
-        self::GZIP => [[0 => [0x1F, 0x8B]]],
-        self::_7ZIP => [[0 => [0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C]]],
-        self::CAB => [[0 => [0x4D, 0x53, 0x43, 0x46]]],
-        self::JAR => [
+        Extension::ARJ => [[0 => [0x60, 0xEA]]],
+        Extension::BZIP2 => [[0 => [0x42, 0x5A, 0x68]]],
+        Extension::GZIP => [[0 => [0x1F, 0x8B]]],
+        Extension::_7ZIP => [[0 => [0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C]]],
+        Extension::CAB => [[0 => [0x4D, 0x53, 0x43, 0x46]]],
+        Extension::JAR => [
             [0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x08, 0x00, 0x08, 0x00]],
             // or
             [0 => [0x5F, 0x27, 0xA8, 0x89]],
         ],
-        self::RAR => [
+        Extension::RAR => [
             [0 => [0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x00]],
             // or
             [0 => [0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x01, 0x00]],
         ],
-        self::TAR => [
+        Extension::TAR => [
             [0 => [0x75, 0x73, 0x74, 0x61, 0x72, 0x00, 0x30, 0x30]],
             // or
             [0 => [0x75, 0x73, 0x74, 0x61, 0x72, 0x20, 0x20, 0x00]],
         ],
-        self::ARC => [[0 => [0x41, 0x72, 0x43, 0x01]]],
-        self::DAR => [[0 => [0x00, 0x00, 0x00, 0x7B]]],
+        Extension::ARC => [[0 => [0x41, 0x72, 0x43, 0x01]]],
+        Extension::DAR => [[0 => [0x00, 0x00, 0x00, 0x7B]]],
 
         // Disk images signatures
-        self::ISO => [[0 => [0x43, 0x44, 0x30, 0x30, 0x31]]],
-        self::NRG => [
+        Extension::ISO => [[0 => [0x43, 0x44, 0x30, 0x30, 0x31]]],
+        Extension::NRG => [
             [-8 => ['N', 'E', 'R', 'O']],
             // or
             [-12 => ['N', 'E', 'R', '5']],
         ],
 
         // Spreadsheets signatures
-        self::ACCDB => [
+        Extension::ACCDB => [
             [
                 0 => [
                     0x00,
@@ -507,7 +100,7 @@ class Detector
                 ],
             ],
         ],
-        self::MDB => [
+        Extension::MDB => [
             [
                 0 => [
                     0x00,
@@ -532,7 +125,7 @@ class Detector
                 ],
             ],
         ],
-        self::SQLITE => [
+        Extension::SQLITE => [
             [
                 0 => [
                     0x53,
@@ -556,21 +149,21 @@ class Detector
         ],
 
         // Microsoft Office old formats (doc, xls, ppt)
-        self::DOC => [
+        Extension::DOC => [
             [
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
                 512 => [0xEC, 0xA5, 0xC1, 0x00],
             ],
         ],
-        self::XLS => [
+        Extension::XLS => [
             [
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
                 512 => [0x09, 0x08, 0x10, 0x00, 0x00, 0x06, 0x05, 0x00],
             ],
         ],
-        self::PPT => [
+        Extension::PPT => [
             [
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
@@ -591,7 +184,7 @@ class Detector
         ],
 
         // Microsoft Office new formats (docx, xlsx, pptx)
-        self::DOCX => [
+        Extension::DOCX => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00],
                 // and
@@ -603,7 +196,7 @@ class Detector
                 ],
             ],
         ],
-        self::XLSX => [
+        Extension::XLSX => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00],
                 // and
@@ -615,7 +208,7 @@ class Detector
                 ],
             ],
         ],
-        self::PPTX => [
+        Extension::PPTX => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00],
                 // and
@@ -629,7 +222,7 @@ class Detector
         ],
 
         // Open Alliance formats
-        self::ODT => [
+        Extension::ODT => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
@@ -682,7 +275,7 @@ class Detector
                 73 => ['t', 'e', 'x', 't'],
             ],
         ],
-        self::ODS => [
+        Extension::ODS => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
@@ -735,7 +328,7 @@ class Detector
                 73 => ['s', 'p', 'r', 'e', 'a', 'd', 's', 'h', 'e', 'e', 't'],
             ],
         ],
-        self::ODP => [
+        Extension::ODP => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
@@ -788,7 +381,7 @@ class Detector
                 73 => ['p', 'r', 'e', 's', 'e', 'n', 't', 'a', 't', 'i', 'o', 'n'],
             ],
         ],
-        self::ODB => [
+        Extension::ODB => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
@@ -843,10 +436,10 @@ class Detector
         ],
 
         // Text formats
-        self::HTML => [[0 => '<html']],
-        self::PDF => [[0 => [0x25, 0x50, 0x44, 0x46]]],
-        self::RTF => [[0 => [0x7B, 0x5C, 0x72, 0x74, 0x66, 0x31]]],
-        self::ATOM => [
+        Extension::HTML => [[0 => '<html']],
+        Extension::PDF => [[0 => [0x25, 0x50, 0x44, 0x46]]],
+        Extension::RTF => [[0 => [0x7B, 0x5C, 0x72, 0x74, 0x66, 0x31]]],
+        Extension::ATOM => [
             [
                 0 => '<?xml',
                 // and
@@ -857,7 +450,7 @@ class Detector
                 ],
             ],
         ],
-        self::RSS => [
+        Extension::RSS => [
             [
                 0 => '<?xml',
                 // search for substring "<rss" at the start of file
@@ -868,50 +461,50 @@ class Detector
             ],
         ],
         // make sure xml at the end of Text's section
-        self::XML => [[0 => '<?xml']],
+        Extension::XML => [[0 => '<?xml']],
 
         // Font formats
-        self::OTF => [[0 => [0x4F, 0x54, 0x54, 0x4F]]],
-        self::TTF => [[0 => [0x00, 0x01, 0x00, 0x00, 0x00]]],
+        Extension::OTF => [[0 => [0x4F, 0x54, 0x54, 0x4F]]],
+        Extension::TTF => [[0 => [0x00, 0x01, 0x00, 0x00, 0x00]]],
 
         // Executables formats
-        self::APK => [
+        Extension::APK => [
             [
                 0 => [0x50, 0x4B, 0x03, 0x04],
                 // and
                 30 => ['A', 'n', 'd', 'r', 'o', 'i', 'd', 'M', 'a', 'n', 'i', 'f', 'e', 's', 't', '.', 'x', 'm', 'l'],
             ],
         ],
-        self::EXE => [[0 => [0x4D, 0x5A]]],
+        Extension::EXE => [[0 => [0x4D, 0x5A]]],
 
         // Audios formats
-        self::FLAC => [[0 => [0x66, 0x4C, 0x61, 0x43, 0x00, 0x00, 0x00, 0x22]]],
-        self::AMR => [[0 => [0x23, 0x21, 0x41, 0x4D, 0x52]]],
-        self::MP3 => [[0 => [0x49, 0x44, 0x33]]],
-        self::AAC => [
+        Extension::FLAC => [[0 => [0x66, 0x4C, 0x61, 0x43, 0x00, 0x00, 0x00, 0x22]]],
+        Extension::AMR => [[0 => [0x23, 0x21, 0x41, 0x4D, 0x52]]],
+        Extension::MP3 => [[0 => [0x49, 0x44, 0x33]]],
+        Extension::AAC => [
             [0 => [0xFF, 0xF1]],
             // or
             [0 => [0xFF, 0xF9]],
         ],
-        self::M3U => [[0 => ['#', 'E', 'X', 'T', 'M', '3', 'U']]],
-        self::OGG => [
+        Extension::M3U => [[0 => ['#', 'E', 'X', 'T', 'M', '3', 'U']]],
+        Extension::OGG => [
             [0 => ['O', 'g', 'g', 'S']],
             // or
             [0 => [0x4f, 0x67, 0x67, 0x53]],
         ],
-        self::MIDI => [[0 => [0x4D, 0x54, 0x68, 0x64]]],
+        Extension::MIDI => [[0 => [0x4D, 0x54, 0x68, 0x64]]],
 
-        self::_3GP => [[0 => [0x00, 0x00, 0x00, 0x14, 0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70]]],
-        self::AVI => [
+        Extension::_3GP => [[0 => [0x00, 0x00, 0x00, 0x14, 0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70]]],
+        Extension::AVI => [
             [
                 0 => [0x52, 0x49, 0x46, 0x46],
                 // and
                 8 => [0x41, 0x56, 0x49, 0x20, 0x4C, 0x49, 0x53, 0x54],
             ],
         ],
-        self::FLV => [[0 => [0x46, 0x4C, 0x56, 0x01]]],
-        self::M4V => [[0 => [0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x6D, 0x70, 0x34, 0x32]]],
-        self::MKV => [
+        Extension::FLV => [[0 => [0x46, 0x4C, 0x56, 0x01]]],
+        Extension::M4V => [[0 => [0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x6D, 0x70, 0x34, 0x32]]],
+        Extension::MKV => [
             [
                 0 => [
                     0x1A,
@@ -933,12 +526,12 @@ class Detector
                 ],
             ],
         ],
-        self::MOV => [
+        Extension::MOV => [
             [4 => [0x66, 0x74, 0x79, 0x70, 0x71, 0x74, 0x20, 0x20]],
             // or
             [4 => [0x6D, 0x6F, 0x6F, 0x76]],
         ],
-        self::MP4 => [
+        Extension::MP4 => [
             [4 => [0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6F, 0x6D]],
             // or
             [4 => [0x66, 0x74, 0x79, 0x70, 0x33, 0x67, 0x70, 0x35]],
@@ -947,25 +540,25 @@ class Detector
             // or
             [4 => [0x66, 0x74, 0x79, 0x70, 0x4D, 0x34, 0x41, 0x20]],
         ],
-        self::MPEG => [
+        Extension::MPEG => [
             [
                 0 => [0x00, 0x00, 0x01],
                 // and
                 -4 => [0x00, 0x00, 0x01, 0xB7],
             ],
         ],
-        self::SWF => [[0 => [0x5A, 0x57, 0x53]]],
-        self::VOB => [
+        Extension::SWF => [[0 => [0x5A, 0x57, 0x53]]],
+        Extension::VOB => [
             [
                 0 => [0x00, 0x00, 0x01, 0xBA],
                 // and
                 -4 => [0x00, 0x00, 0x01, 0xB9],
             ],
         ],
-        self::WEBM => [[0 => [0x1A, 0x45, 0xDF, 0xA3]]],
+        Extension::WEBM => [[0 => [0x1A, 0x45, 0xDF, 0xA3]]],
 
         // zip is a container for a lot of formats
-        self::ZIP => [
+        Extension::ZIP => [
             [0 => [0x50, 0x4B, 0x03, 0x04]],
             // or
             [0 => [0x50, 0x4B, 0x05, 0x06]],
@@ -974,7 +567,7 @@ class Detector
         ],
 
         // Scneraios formats
-        self::REG => [
+        Extension::REG => [
             [0 => [0xFF, 0xFE]],
             // or
             [0 => [0x52, 0x45, 0x47, 0x45, 0x44, 0x49, 0x54]],
@@ -982,97 +575,99 @@ class Detector
     ];
 
 
-    /**
-     * @return false|string
-     */
-    public static function getMimeType(string $file)
+    public static function getMimeType(string $file): ?string
     {
-        $format = self::detectByFilename($file);
+        $fileInfo = self::detectFromFilePath($file);
 
-        if ($format === false) {
-            $format = self::detectByContent($file);
+        if ($fileInfo === null) {
+            return null;
         }
 
-        if ($format === false) {
-            return false;
-        }
-
-        return $format[2];
+        return $fileInfo->getMimeType();
     }
 
 
-    /**
-     * @return mixed[]|false
-     */
-    public static function detectByFilename(string $filename)
+    public static function detectFromFilePath(string $filePath): ?FileInfo
     {
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        if (isset(self::$aliases[$ext])) {
-            $ext = self::$aliases[$ext];
-        }
-        if (isset(self::$extensions[$ext])) {
-            $format = [null, self::$extensions[$ext]];
-            foreach (self::$types as $type => $formats) {
-                if (in_array($format[1], $formats, true)) {
-                    $format[0] = $type;
-                    break;
-                }
-            }
-            $format[2] = self::$mimeTypes[$format[1]] ?? false;
+        return self::detectByFileName($filePath) ?? self::detectByContent($filePath);
+    }
 
-            return $format;
+
+    public static function detectFromContent(string $content): ?FileInfo
+    {
+        $source = fopen('php://memory', 'rb+');
+        assert($source !== false);
+
+        fwrite($source, $content);
+        rewind($source);
+
+        return self::detectByContent($source);
+    }
+
+
+    public static function detectByFileName(string $filename): ?FileInfo
+    {
+        $extension = self::resolveExtensionFromFileName($filename);
+
+        if ($extension === null) {
+            return null;
         }
 
-        return false;
+        return new FileInfo($extension, true);
+    }
+
+
+    private static function resolveExtensionFromFileName(string $fileName): ?Extension
+    {
+        $extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+        try {
+            return Extension::getIncludingAliases($extension);
+        } catch (InvalidArgumentException $exception) {
+            return null;
+        }
     }
 
 
     /**
      * @param resource|string $source
      *
-     * @return mixed|false
-     *
      * @throws Exception
      */
-    public static function detectByContent($source)
+    public static function detectByContent($source): ?FileInfo
     {
         $stream = new ContentStream($source);
         foreach (self::$signatures as $format => $signatures) {
-            foreach ($signatures as $or_signature) {
+            foreach ($signatures as $orSignature) {
                 $passed = true;
-                foreach ($or_signature as $offset => $and_signature) {
+                foreach ($orSignature as $offset => $andSignature) {
                     // search for substring in range
-                    if (isset($and_signature['bytes'])) {
+                    if (isset($andSignature['bytes'])) {
                         if ($stream->find(
                             $offset,
-                            $and_signature['bytes'],
-                            $and_signature['depth'] ?? 512,
-                            $and_signature['reverse'] ?? false
+                            $andSignature['bytes'],
+                            $andSignature['depth'] ?? 512,
+                            $andSignature['reverse'] ?? false
                         ) === false) {
                             $passed = false;
                             break;
                         }
-                    } else if ($stream->checkBytes($offset, $and_signature) === false) { // exact match
-                        $passed = false;
-                        break;
+                    } else {
+                        if ($stream->checkBytes($offset, $andSignature) === false) { // exact match
+                            $passed = false;
+                            break;
+                        }
                     }
                 }
                 // if earlier we did not break inner loop, then all signatures matched
                 if ($passed) {
-                    $format = [null, $format];
-                    foreach (self::$types as $type => $formats) {
-                        if (in_array($format[1], $formats, true)) {
-                            $format[0] = $type;
-                            break;
-                        }
-                    }
-                    $format[2] = self::$mimeTypes[$format[1]] ?? false;
+                    $extension = Extension::get($format);
 
-                    return $format;
+                    return new FileInfo($extension, false);
                 }
             }
         }
 
-        return false;
+        return null;
     }
 }

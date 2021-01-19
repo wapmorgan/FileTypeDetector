@@ -5,8 +5,11 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "wapmorgan\\FileTypeDetector\\": "src/"
+            "BrandEmbassy\\FileTypeDetector\\": "src/"
         }
+    },
+    "require": {
+        "marc-mabe/php-enum": "^3.1 || ^4.2"
     },
     "require-dev": {
         "brandembassy/coding-standard": "^8.1",
