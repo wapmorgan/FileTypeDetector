@@ -34,7 +34,7 @@ final class FileInfo
     }
 
 
-    public function getExtension(): ?Extension
+    public function getExtension(): Extension
     {
         return $this->extension;
     }

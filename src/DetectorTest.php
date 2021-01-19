@@ -194,11 +194,8 @@ class DetectorTest extends TestCase
         $fileType = $fileInfo->getFileType();
         assert($fileType !== null);
 
-        $extension = $fileInfo->getExtension();
-        assert($extension !== null);
-
         Assert::assertSame($expectedFileType, $fileType->getValue());
-        Assert::assertSame($expectedExtension, $extension->getValue());
+        Assert::assertSame($expectedExtension, $fileInfo->getExtension()->getValue());
         Assert::assertSame($expectedMimeType, $fileInfo->getMimeType());
     }
 }
