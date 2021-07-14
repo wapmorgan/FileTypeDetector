@@ -6,7 +6,6 @@ use Exception;
 use function abs;
 use function assert;
 use function fclose;
-use function feof;
 use function fgetc;
 use function file_exists;
 use function fopen;
@@ -57,9 +56,11 @@ class ContentStream
             // cache all data if stream is not seekable
             $meta = stream_get_meta_data($source);
             if (!$meta['seekable']) {
-                while (!feof($source)) {
+                while (true) {
                     $character = fgetc($source);
-                    assert($character !== false);
+                    if ($character === false) {
+                        break;
+                    }
 
                     $this->read[] = ord($character);
                 }
