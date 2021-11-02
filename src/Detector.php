@@ -652,6 +652,13 @@ class Detector {
             // and
             -4 => [0x00, 0x00, 0x01, 0xB9]
         ]],
+        self::WAV => [
+            [
+                0 => [0x52, 0x49, 0x46, 0x46],
+                // and
+                8 => [0x57, 0x41, 0x56, 0x45]
+            ]
+        ],
         self::WEBM => [[0 => [0x1A, 0x45, 0xDF, 0xA3]]],
 
         // zip is a container for a lot of formats
