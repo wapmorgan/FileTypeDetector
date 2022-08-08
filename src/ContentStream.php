@@ -5,6 +5,7 @@ namespace BrandEmbassy\FileTypeDetector;
 use Exception;
 use function abs;
 use function assert;
+use function count;
 use function fclose;
 use function fgetc;
 use function file_exists;
@@ -30,14 +31,19 @@ class ContentStream
     protected $openedOutside = false;
 
     /**
+     * @var bool
+     */
+    protected $cachedAllBytes = false;
+
+    /**
      * @var resource
      */
     protected $filePointer;
 
     /**
-     * @var mixed[]
+     * @var int[]
      */
-    protected $read = [];
+    protected $readBytesCache = [];
 
 
     /**
@@ -62,8 +68,9 @@ class ContentStream
                         break;
                     }
 
-                    $this->read[] = ord($character);
+                    $this->readBytesCache[] = ord($character);
                 }
+                $this->cachedAllBytes = true;
             }
         } else {
             throw new Exception('Unknown source: ' . var_export($source, true) . ' (' . gettype($source) . ')');
@@ -80,8 +87,7 @@ class ContentStream
     public function checkBytes(int $offset, $ethalon): bool
     {
         if ($offset < 0) {
-            $stat = fstat($this->filePointer);
-            $offset = $stat['size'] + $offset;
+            $offset = $this->getSize() + $offset;
         }
         if (!is_array($ethalon)) {
             $ethalon = $this->convertToBytes($ethalon);
@@ -91,7 +97,7 @@ class ContentStream
                 return false;
             }
 
-            if ($this->read[$offset + $i] !== $byte) {
+            if ($this->readBytesCache[$offset + $i] !== $byte) {
                 return false;
             }
         }
@@ -121,8 +127,7 @@ class ContentStream
     public function find(int $offset, array $bytes, int $maxDepth = 512, bool $reverse = false): bool
     {
         if ($offset < 0) {
-            $stat = fstat($this->filePointer);
-            $offset = $stat['size'] + $offset;
+            $offset = $this->getSize() + $offset;
         }
         $i = 0;
         while (abs($i) <= $maxDepth) {
@@ -136,7 +141,7 @@ class ContentStream
                 if (is_string($byte)) {
                     $byte = ord($byte);
                 }
-                if ($this->read[$offset + $i + $j] !== $byte) {
+                if ($this->readBytesCache[$offset + $i + $j] !== $byte) {
                     continue 2;
                 }
             }
@@ -148,9 +153,25 @@ class ContentStream
     }
 
 
+    private function getSize(): int
+    {
+        if ($this->cachedAllBytes) {
+            return count($this->readBytesCache);
+        }
+
+        $stat = fstat($this->filePointer);
+
+        return $stat['size'];
+    }
+
+
     private function readOffset(int $offset): bool
     {
-        if (!isset($this->read[$offset])) {
+        if (!isset($this->readBytesCache[$offset])) {
+            if ($this->cachedAllBytes) {
+                return false;
+            }
+
             fseek($this->filePointer, $offset, SEEK_SET);
             $character = fgetc($this->filePointer);
 
@@ -158,7 +179,7 @@ class ContentStream
                 return false;
             }
 
-            $this->read[$offset] = ord($character);
+            $this->readBytesCache[$offset] = ord($character);
         }
 
         return true;

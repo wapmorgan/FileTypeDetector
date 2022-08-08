@@ -14,7 +14,8 @@
     },
     "require-dev": {
         "brandembassy/coding-standard": "^8.1",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "ext-zip": "*"
     },
     "scripts": {
         "phpcs": "./vendor/bin/phpcs --standard=BrandEmbassyCodingStandard src --runtime-set php_version 70200",

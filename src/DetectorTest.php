@@ -4,6 +4,7 @@ namespace BrandEmbassy\FileTypeDetector;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use ZipArchive;
 use function array_map;
 use function assert;
 use function fclose;
@@ -13,6 +14,9 @@ use function fwrite;
 use function implode;
 use function is_resource;
 use function rewind;
+use function stream_get_meta_data;
+use function sys_get_temp_dir;
+use function tempnam;
 
 class DetectorTest extends TestCase
 {
@@ -164,6 +168,40 @@ class DetectorTest extends TestCase
 
 
     /**
+     * This tests behavior of Detector on non-seekable streams (eg. HTTP), ZipArchive was used to simulate it locally
+     * Saves the files to a temporary ZIP archive, and reads it again to access the contents
+     *
+     * @dataProvider filePathDataProvider()
+     */
+    public function testDetectionByContentInZipArchive(
+        string $filePath,
+        string $expectedFileType,
+        string $expectedExtension,
+        string $expectedMimeType
+    ): void {
+        $zipArchiveName = tempnam(sys_get_temp_dir(), 'zip');
+        assert($zipArchiveName !== false);
+
+        $zipArchive = new ZipArchive();
+        $zipArchive->open($zipArchiveName, ZipArchive::CREATE);
+        $zipArchive->addFile($filePath, 'file');
+        $zipArchive->close();
+        $zipArchive->open($zipArchiveName);
+
+        $stream = $zipArchive->getStream('file');
+        assert($stream !== false);
+
+        $streamMetaData = stream_get_meta_data($stream);
+        Assert::assertFalse($streamMetaData['seekable']);
+
+        $fileInfo = Detector::detectByContent($stream);
+        Assert::assertNotNull($fileInfo);
+
+        $this->assertFileInfo($fileInfo, $expectedFileType, $expectedExtension, $expectedMimeType);
+    }
+
+
+    /**
      * @return string[][]
      */
     public function filePathDataProvider(): array
@@ -180,6 +218,12 @@ class DetectorTest extends TestCase
                 'expectedFileType' => 'image',
                 'expectedExtension' => 'png',
                 'expectedMimeType' => 'image/png',
+            ],
+            [
+                'filePath' => __DIR__ . '/__fixtures__/empty.pdf',
+                'expectedFileType' => 'document',
+                'expectedExtension' => 'pdf',
+                'expectedMimeType' => 'application/pdf',
             ],
         ];
     }
