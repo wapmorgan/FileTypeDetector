@@ -7,8 +7,10 @@ use function in_array;
 
 /**
  * @method string getValue()
+ *
+ * @final
  */
-final class FileType extends Enum
+class FileType extends Enum
 {
     public const AUDIO = 'audio';
     public const VIDEO = 'video';

@@ -2,7 +2,10 @@
 
 namespace BrandEmbassy\FileTypeDetector;
 
-final class FileInfo
+/**
+ * @final
+ */
+class FileInfo
 {
     /**
      * @var Extension

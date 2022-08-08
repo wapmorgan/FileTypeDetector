@@ -7,8 +7,10 @@ use MabeEnum\Enum;
 
 /**
  * @method string getValue()
+ *
+ * @final
  */
-final class Extension extends Enum
+class Extension extends Enum
 {
     public const JPEG = 'jpeg';
     public const BMP = 'bmp';

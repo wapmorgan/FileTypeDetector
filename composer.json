@@ -9,6 +9,7 @@
         }
     },
     "require": {
+        "php": "^7.2 || ^8.0",
         "marc-mabe/php-enum": "^3.1 || ^4.2"
     },
     "require-dev": {
@@ -16,10 +17,16 @@
         "phpunit/phpunit": "^8.5"
     },
     "scripts": {
-        "phpcs": "./vendor/bin/phpcs --standard=BrandEmbassyCodingStandard src",
-        "phpcbf": "./vendor/bin/phpcbf --standard=BrandEmbassyCodingStandard src",
+        "phpcs": "./vendor/bin/phpcs --standard=BrandEmbassyCodingStandard src --runtime-set php_version 70200",
+        "phpcbf": "./vendor/bin/phpcbf --standard=BrandEmbassyCodingStandard src --runtime-set php_version 70200",
         "phpstan": "./vendor/bin/phpstan analyze -c phpstan.neon src --memory-limit=-1",
         "phpunit": "vendor/bin/phpunit src --no-coverage",
         "phpunit-cc": "vendor/bin/phpunit src"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "lock": false
     }
 }
