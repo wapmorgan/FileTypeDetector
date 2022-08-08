@@ -3,7 +3,11 @@
 namespace BrandEmbassy\FileTypeDetector;
 
 use InvalidArgumentException;
+use LogicException;
 use MabeEnum\Enum;
+use function sprintf;
+use function trigger_error;
+use const E_USER_DEPRECATED;
 
 /**
  * @method string getValue()
@@ -134,6 +138,8 @@ class Extension extends Enum
         self::DAR => 'application/x-dar',
 
         self::ISO => 'application/x-iso9660-image',
+        self::NRG => 'application/x-nrg',
+        self::VHD => 'application/x-vhd',
 
         self::ACCDB => 'application/x-msaccess',
         self::MDB => 'application/x-msaccess',
@@ -184,6 +190,7 @@ class Extension extends Enum
         self::TSV => 'text/tab-separated-values',
 
         self::_3GP => 'video/3gpp',
+        self::ASF => 'application/vnd.ms-asf',
         self::AVI => 'video/x-msvideo',
         self::FLV => 'video/x-flv',
         self::M4V => 'video/x-m4v',
@@ -215,8 +222,25 @@ class Extension extends Enum
     }
 
 
+    public function getMimeType(): string
+    {
+        if (!isset(self::$mimeTypes[$this->getValue()])) {
+            throw new LogicException(sprintf('Mime type for extension "%s" does not exist.', $this->getValue()));
+        }
+
+        return self::$mimeTypes[$this->getValue()];
+    }
+
+
+    /**
+     * @deprecated use getMimeType instead
+     *
+     * @see self::getMimeType()
+     */
     public function findMimeType(): ?string
     {
-        return self::$mimeTypes[$this->getValue()] ?? null;
+        @trigger_error(sprintf('Method %s is deprecated.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->getMimeType();
     }
 }

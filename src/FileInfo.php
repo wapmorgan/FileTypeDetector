@@ -13,12 +13,12 @@ class FileInfo
     private $extension;
 
     /**
-     * @var FileType|null
+     * @var FileType
      */
     private $fileType;
 
     /**
-     * @var string|null
+     * @var string
      */
     private $mimeType;
 
@@ -31,8 +31,8 @@ class FileInfo
     public function __construct(Extension $extension, bool $isCreatedFromFileName)
     {
         $this->extension = $extension;
-        $this->fileType = FileType::findByExtension($extension);
-        $this->mimeType = $extension->findMimeType();
+        $this->fileType = FileType::getByExtension($extension);
+        $this->mimeType = $extension->getMimeType();
         $this->isCreatedFromFileName = $isCreatedFromFileName;
     }
 
@@ -43,13 +43,13 @@ class FileInfo
     }
 
 
-    public function getFileType(): ?FileType
+    public function getFileType(): FileType
     {
         return $this->fileType;
     }
 
 
-    public function getMimeType(): ?string
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }

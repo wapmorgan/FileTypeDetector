@@ -236,7 +236,6 @@ class DetectorTest extends TestCase
         string $expectedMimeType
     ): void {
         $fileType = $fileInfo->getFileType();
-        assert($fileType !== null);
 
         Assert::assertSame($expectedFileType, $fileType->getValue());
         Assert::assertSame($expectedExtension, $fileInfo->getExtension()->getValue());
