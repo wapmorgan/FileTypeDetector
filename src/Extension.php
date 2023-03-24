@@ -93,6 +93,8 @@ class Extension extends Enum
     public const VOB = 'vob';
     public const WMV = 'wmv';
     public const WEBM = 'webm';
+
+    public const WEBP = 'webp';
     public const REG = 'reg';
 
     /**
@@ -114,7 +116,7 @@ class Extension extends Enum
     /**
      * @var string[]
      */
-    private static $mimeTypes = [
+    public static $mimeTypes = [
         self::JPEG => 'image/jpeg',
         self::BMP => 'image/bmp',
         self::GIF => 'image/gif',
@@ -123,6 +125,7 @@ class Extension extends Enum
         self::PSD => 'image/vnd.adobe.photoshop',
         self::ICO => 'image/x-icon',
         self::SVG => 'image/svg+xml',
+        self::WEBP => 'image/webp',
 
         self::ARJ => 'application/arj',
         self::BZIP2 => 'application/x-bzip2',

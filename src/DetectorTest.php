@@ -202,6 +202,46 @@ class DetectorTest extends TestCase
 
 
     /**
+     * @dataProvider mimeTypeDataProvider()
+     */
+    public function testResolveExtensionFromMimeType(string $mimeType, Extension $expectedExtension): void
+    {
+        $extension = Detector::resolveExtensionFromMimeType($mimeType);
+        Assert::assertNotNull($extension);
+
+        Assert::assertTrue($extension->is($expectedExtension));
+    }
+
+
+    public function testResolveExtensionFromUnknownMimeType(): void
+    {
+        Assert::assertNull(Detector::resolveExtensionFromMimeType('unknown/mime-type'));
+    }
+
+
+    /**
+     * @return array<array{mimeType: string, expectedExtension: Extension}>
+     */
+    public function mimeTypeDataProvider(): array
+    {
+        return [
+            [
+                'mimeType' => 'image/png',
+                'expectedExtension' => Extension::get(Extension::PNG),
+            ],
+            [
+                'mimeType' => 'image/webp',
+                'expectedExtension' => Extension::get(Extension::WEBP),
+            ],
+            [
+                'mimeType' => 'application/pdf',
+                'expectedExtension' => Extension::get(Extension::PDF),
+            ],
+        ];
+    }
+
+
+    /**
      * @return string[][]
      */
     public function filePathDataProvider(): array

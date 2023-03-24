@@ -44,6 +44,7 @@ class FileType extends Enum
             Extension::PSD,
             Extension::ICO,
             Extension::SVG,
+            Extension::WEBP,
         ],
 
         self::ARCHIVE => [
