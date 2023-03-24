@@ -632,6 +632,18 @@ class Detector
     }
 
 
+    public static function resolveExtensionFromMimeType(string $mimeType): ?Extension
+    {
+        foreach (Extension::$mimeTypes as $extension => $currentMimeType) {
+            if ($mimeType === $currentMimeType) {
+                return Extension::get($extension);
+            }
+        }
+
+        return null;
+    }
+
+
     /**
      * @param resource|string $source
      *
