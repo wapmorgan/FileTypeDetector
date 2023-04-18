@@ -5,6 +5,7 @@ namespace BrandEmbassy\FileTypeDetector;
 use Exception;
 use InvalidArgumentException;
 use function assert;
+use function explode;
 use function fopen;
 use function fwrite;
 use function pathinfo;
@@ -634,6 +635,9 @@ class Detector
 
     public static function resolveExtensionFromMimeType(string $mimeType): ?Extension
     {
+        $parts = explode(';', $mimeType);
+        $mimeType = $parts[0];
+
         foreach (Extension::$mimeTypes as $extension => $currentMimeType) {
             if ($mimeType === $currentMimeType) {
                 return Extension::get($extension);

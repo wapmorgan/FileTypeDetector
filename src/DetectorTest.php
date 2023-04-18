@@ -237,6 +237,10 @@ class DetectorTest extends TestCase
                 'mimeType' => 'application/pdf',
                 'expectedExtension' => Extension::get(Extension::PDF),
             ],
+            [
+                'mimeType' => 'image/jpeg; charset=binary',
+                'expectedExtension' => Extension::get(Extension::JPEG),
+            ],
         ];
     }
 
