@@ -241,6 +241,10 @@ class DetectorTest extends TestCase
                 'mimeType' => 'image/jpeg; charset=binary',
                 'expectedExtension' => Extension::get(Extension::JPEG),
             ],
+            [
+                'mimeType' => 'audio/x-m4a; charset=binary',
+                'expectedExtension' => Extension::get(Extension::M4A),
+            ],
         ];
     }
 

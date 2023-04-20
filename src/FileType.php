@@ -122,6 +122,7 @@ class FileType extends Enum
             Extension::OGG,
             Extension::WAV,
             Extension::MIDI,
+            Extension::M4A,
         ],
 
         self::SPREADSHEET => [

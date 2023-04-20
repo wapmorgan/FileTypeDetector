@@ -75,6 +75,7 @@ class Extension extends Enum
     public const OGG = 'ogg';
     public const WAV = 'wav';
     public const MIDI = 'midi';
+    public const M4A = 'm4a';
     public const ODS = 'ods';
     public const XLS = 'xls';
     public const XLSX = 'xlsx';
@@ -93,7 +94,6 @@ class Extension extends Enum
     public const VOB = 'vob';
     public const WMV = 'wmv';
     public const WEBM = 'webm';
-
     public const WEBP = 'webp';
     public const REG = 'reg';
 
@@ -185,6 +185,7 @@ class Extension extends Enum
         self::OGG => 'audio/ogg',
         self::WAV => 'audio/x-wav',
         self::MIDI => 'audio/midi',
+        self::M4A => 'audio/x-m4a',
 
         self::ODS => 'application/vnd.oasis.opendocument.spreadsheet',
         self::XLS => 'application/vnd.ms-excel',
