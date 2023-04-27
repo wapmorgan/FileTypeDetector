@@ -23,6 +23,7 @@ class Detector {
     const TIFF = 'tiff';
     const PSD = 'psd';
     const ICO = 'ico';
+    const WEBP = 'webp';
 
     const ARJ = 'arj';
     const BZIP2 = 'bzip2';
@@ -124,6 +125,7 @@ class Detector {
         'tiff' => self::TIFF,
         'psd' => self::PSD,
         'ico' => self::ICO,
+        'webp' => self::WEBP,
         'arj' => self::ARJ,
         'bz2' => self::BZIP2,
         'gz' => self::GZIP,
@@ -203,6 +205,7 @@ class Detector {
             self::TIFF,
             self::PSD,
             self::ICO,
+            self::WEBP,
         ),
 
         self::ARCHIVE => array(
@@ -319,6 +322,7 @@ class Detector {
         self::TIFF => 'image/tiff',
         self::PSD => 'image/vnd.adobe.photoshop',
         self::ICO => 'image/x-icon',
+        self::WEBP => 'image/webp',
 
         self::ARJ => 'application/arj',
         self::BZIP2 => 'application/x-bzip2',
@@ -420,6 +424,10 @@ class Detector {
         ],
         self::PSD => [[0 => [0x38, 0x42, 0x50, 0x53]]],
         self::ICO => [[0 => [0x00, 0x00, 0x01, 0x00]]],
+        self::WEBP => [
+            [0 => [0x52, 0x49, 0x46, 0x46]],
+            [0 => [0x57, 0x45, 0x42, 0x50]],
+        ],        
 
         // Archives signatures
         self::ARJ => [[0 => [0x60, 0xEA]]],
