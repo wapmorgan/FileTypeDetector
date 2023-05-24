@@ -66,6 +66,18 @@ class DetectorTest extends TestCase
                 'expectedExtension' => Extension::MP3,
                 'expectedMimeType' => 'audio/mpeg',
             ],
+            'svg1' => [
+                'fileName' => 'svg1.svg',
+                'expectedFileType' => FileType::IMAGE,
+                'expectedExtension' => Extension::SVG,
+                'expectedMimeType' => 'image/svg+xml',
+            ],
+            'xml' => [
+                'fileName' => 'document.xml',
+                'expectedFileType' => FileType::DOCUMENT,
+                'expectedExtension' => Extension::XML,
+                'expectedMimeType' => 'application/xml',
+            ],
         ];
     }
 
@@ -255,23 +267,47 @@ class DetectorTest extends TestCase
     public function filePathDataProvider(): array
     {
         return [
-            [
+            'png' => [
                 'filePath' => __DIR__ . '/__fixtures__/image.png',
                 'expectedFileType' => 'image',
                 'expectedExtension' => 'png',
                 'expectedMimeType' => 'image/png',
             ],
-            [
+            'png without extension' => [
                 'filePath' => __DIR__ . '/__fixtures__/image-without-extension',
                 'expectedFileType' => 'image',
                 'expectedExtension' => 'png',
                 'expectedMimeType' => 'image/png',
             ],
-            [
+            'pdf' => [
                 'filePath' => __DIR__ . '/__fixtures__/empty.pdf',
                 'expectedFileType' => 'document',
                 'expectedExtension' => 'pdf',
                 'expectedMimeType' => 'application/pdf',
+            ],
+            'svg' => [
+                'filePath' => __DIR__ . '/__fixtures__/pacifier.svg',
+                'expectedFileType' => 'image',
+                'expectedExtension' => 'svg',
+                'expectedMimeType' => 'image/svg+xml',
+            ],
+            'svg without xml' => [
+                'filePath' => __DIR__ . '/__fixtures__/pacifierWithoutXml.svg',
+                'expectedFileType' => 'image',
+                'expectedExtension' => 'svg',
+                'expectedMimeType' => 'image/svg+xml',
+            ],
+            'svg without xml 2' => [
+                'filePath' => __DIR__ . '/__fixtures__/7a602a42',
+                'expectedFileType' => 'image',
+                'expectedExtension' => 'svg',
+                'expectedMimeType' => 'image/svg+xml',
+            ],
+            'xml' => [
+                'filePath' => __DIR__ . '/__fixtures__/document.xml',
+                'expectedFileType' => 'document',
+                'expectedExtension' => 'xml',
+                'expectedMimeType' => 'application/xml',
             ],
         ];
     }

@@ -454,6 +454,19 @@ class Detector
                 ],
             ],
         ],
+        Extension::SVG => [
+            [
+                0 => '<?xml',
+                // search for substring "<svg" in the second xml tag
+                10 => [
+                    'bytes' => ['<', 's', 'v', 'g'],
+                    'depth' => 100,
+                ],
+            ],
+            [
+                0 => '<svg',
+            ],
+        ],
         Extension::RSS => [
             [
                 0 => '<?xml',
