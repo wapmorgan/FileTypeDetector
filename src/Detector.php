@@ -440,6 +440,7 @@ class Detector
         ],
 
         // Text formats
+        Extension::VCF => [[0 => 'BEGIN:VCARD']],
         Extension::HTML => [[0 => '<html']],
         Extension::PDF => [[0 => [0x25, 0x50, 0x44, 0x46]]],
         Extension::RTF => [[0 => [0x7B, 0x5C, 0x72, 0x74, 0x66, 0x31]]],

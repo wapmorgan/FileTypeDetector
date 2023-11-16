@@ -92,6 +92,7 @@ class Extension extends Enum
     public const MP4 = 'mp4';
     public const SWF = 'swf';
     public const VOB = 'vob';
+    public const VCF = 'vcf';
     public const WMV = 'wmv';
     public const WEBM = 'webm';
     public const WEBP = 'webp';
@@ -208,6 +209,7 @@ class Extension extends Enum
         self::WEBM => 'video/webm',
 
         self::REG => 'text/plain',
+        self::VCF => 'text/x-vcard',
 
         self::PEM => 'application/x-x509-ca-cert',
     ];

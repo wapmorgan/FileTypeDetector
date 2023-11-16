@@ -78,6 +78,12 @@ class DetectorTest extends TestCase
                 'expectedExtension' => Extension::XML,
                 'expectedMimeType' => 'application/xml',
             ],
+            'vcf' => [
+                'fileName' => 'card.vcf',
+                'expectedFileType' => FileType::CONTACT,
+                'expectedExtension' => Extension::VCF,
+                'expectedMimeType' => 'text/x-vcard',
+            ],
         ];
     }
 
@@ -308,6 +314,12 @@ class DetectorTest extends TestCase
                 'expectedFileType' => 'document',
                 'expectedExtension' => 'xml',
                 'expectedMimeType' => 'application/xml',
+            ],
+            'vcf' => [
+                'filePath' => __DIR__ . '/__fixtures__/specimen.vcf',
+                'expectedFileType' => 'contact',
+                'expectedExtension' => 'vcf',
+                'expectedMimeType' => 'text/x-vcard',
             ],
         ];
     }

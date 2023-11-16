@@ -30,6 +30,7 @@ class FileType extends Enum
     public const FEED = 'feed';
     public const SCENARIO = 'scenario';
     public const CERTIFICATE = 'certificate';
+    public const CONTACT = 'contact';
 
     /**
      * @var string[][]
@@ -155,6 +156,10 @@ class FileType extends Enum
 
         self::CERTIFICATE => [
             Extension::PEM,
+        ],
+
+        self::CONTACT => [
+            Extension::VCF,
         ],
     ];
 
