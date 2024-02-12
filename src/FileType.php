@@ -124,6 +124,7 @@ class FileType extends Enum
             Extension::WAV,
             Extension::MIDI,
             Extension::M4A,
+            Extension::CAF,
         ],
 
         self::SPREADSHEET => [

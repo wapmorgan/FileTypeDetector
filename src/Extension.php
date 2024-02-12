@@ -24,6 +24,7 @@ class Extension extends Enum
     public const PSD = 'psd';
     public const ICO = 'ico';
     public const SVG = 'svg';
+    public const CAF = 'caf';
     public const PEM = 'pem';
     public const ARJ = 'arj';
     public const BZIP2 = 'bzip2';
@@ -187,6 +188,7 @@ class Extension extends Enum
         self::WAV => 'audio/x-wav',
         self::MIDI => 'audio/midi',
         self::M4A => 'audio/x-m4a',
+        self::CAF => 'audio/x-caf',
 
         self::ODS => 'application/vnd.oasis.opendocument.spreadsheet',
         self::XLS => 'application/vnd.ms-excel',

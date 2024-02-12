@@ -496,6 +496,9 @@ class Detector
         Extension::EXE => [[0 => [0x4D, 0x5A]]],
 
         // Audios formats
+        Extension::CAF => [
+            [0 => [0x63, 0x61, 0x66, 0x66]], // @see https://www.garykessler.net/library/file_sigs.html
+        ],
         Extension::FLAC => [[0 => [0x66, 0x4C, 0x61, 0x43, 0x00, 0x00, 0x00, 0x22]]],
         Extension::AMR => [[0 => [0x23, 0x21, 0x41, 0x4D, 0x52]]],
         Extension::MP3 => [[0 => [0x49, 0x44, 0x33]]],

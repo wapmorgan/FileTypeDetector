@@ -263,6 +263,10 @@ class DetectorTest extends TestCase
                 'mimeType' => 'audio/x-m4a; charset=binary',
                 'expectedExtension' => Extension::get(Extension::M4A),
             ],
+            [
+                'mimeType' => 'audio/x-caf; charset=binary',
+                'expectedExtension' => Extension::get(Extension::CAF),
+            ],
         ];
     }
 
